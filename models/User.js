@@ -1,5 +1,4 @@
 var passport = require('passport');
-var DropboxStrategy = require('passport-dropbox').Strategy;
 var DropboxOAuth2Strategy = require('./../node_modules/passport-dropbox-oauth2').Strategy;
 var Mongoose = require('mongoose');
 
