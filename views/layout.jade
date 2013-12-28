@@ -1,0 +1,19 @@
+doctype 5
+html(ng-app='wolkentask')
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css')
+		link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css')
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+
+		block head
+	
+	body
+		block content
+
+		script(type='application/javascript', src="https://code.jquery.com/jquery.js")
+		script(type='application/javascript', src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js")
+		script(type='application/javascript', src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js')
+		script(type='application/javascript', src='//cdnjs.cloudflare.com/ajax/libs/dropbox.js/0.10.2/dropbox.min.js')
+		script(type='text/javascript', src='/javascripts/modules/WolkentaskApp.js')

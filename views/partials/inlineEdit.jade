@@ -1,0 +1,10 @@
+span
+	span(ng-show="!displayEdit") {{wtData}} 
+		a(ng-click="showEdit()", href="") [Edit]
+	span.ng-hide(ng-show="displayEdit")
+		input(type="text", ng-model="wtData")
+		button(ng-click="save()") Save
+		button(ng-click="cancel()") Cancel
+	span
+		|  
+		a(ng-click="wtDelete()", href="") [x]

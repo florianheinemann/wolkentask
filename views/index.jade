@@ -1,0 +1,65 @@
+extends layout
+
+block head
+	script(type='text/javascript', src='/javascripts/addons/path/Path.js')
+	script(type='text/javascript', src='/javascripts/controllers/WolkentaskController.js')
+
+block content
+	div.container(ng-controller="WolkentaskController", ng-init="initialize('#{providerId}', '#{providerToken}', '#{userId}', '#{dropboxAppKey}'); requestFolderContent(''); requestFavorites()")
+		div.navbar.navbar-default.navbar-collapse(role="navigation")
+			div.navbar-header
+				button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bs-wt-navbar-collapse-1")
+					span.sr-only Toggle navigation
+					span.icon-bar
+					span.icon-bar
+					span.icon-bar
+				span.navbar-brand #{title}
+			div.collapse.navbar-collapse#bs-wt-navbar-collapse-1
+				ul.nav.navbar-nav
+					li
+						a(href="/logout") Logout
+		div.row
+			div.col-xs-12.col-sm-4
+				div.panel.panel-default
+					div.panel-heading Favorites
+					div.panel-body
+						ul.list-unstyled
+							li(ng-repeat="favorite in favorites" ng-cloak)
+								file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path)")
+				div.panel.panel-default
+					div.panel-heading File browser
+					div.panel-body
+						folder-path(wt-path="currentFolder")
+						ul.list-unstyled
+							li(ng-hide="isInRootFolder()")
+								file-listing(wt-name="backString", wt-type="back", wt-open="requestFolderContent(parentFolder)")
+							li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : true } | orderBy:'name'")
+								file-listing(wt-name="fileOrFolder.name", wt-type="folder", wt-open="requestFolderContent(fileOrFolder.path)")
+							li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : false } | orderBy:'name'")
+								file-listing(wt-name="fileOrFolder.name", wt-type="file", wt-open="getFile(fileOrFolder.path)")
+			div.col-xs-12.col-sm-8(ng-show="currentFileName", ng-cloak)
+				div.panel.panel-default
+					div.panel-heading {{currentFileName}}
+						div.btn-group.pull-right
+							favorite-star(wt-path="currentFilePath")
+							sync-button(wt-status="saveStatus", wt-save="saveFile()")
+					div.panel-body
+						form.form-inline(role="form", ng-submit="addNewTodo()")
+								div.form-group
+									div.input-group
+										label.sr-only(for="formAddTodo") New Todo
+										input.form-control#formAddTodo(type="text", placeholder="New Todo", ng-model="newTodo.rawData")
+										span.input-group-btn
+											button.btn.btn-default(type="submit") Add
+
+						ul.list-unstyled
+							li(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
+								span.input-group-btn
+									input(type="checkbox", ng-model="todo.done", ng-change="updateTodo(todo)")
+									inline-edit(wt-data="todo.displayData", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)")
+						ul.list-unstyled
+							li(ng-repeat="todo in currentFileData | filter: { display: true, done: true }")
+								span
+									input(type="checkbox", ng-model="todo.done", ng-change="updateTodo(todo)")
+									del
+										inline-edit(wt-data="todo.displayData", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)")

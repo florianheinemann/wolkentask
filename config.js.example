@@ -1,0 +1,33 @@
+var config = {};
+config.mongodb = {};
+config.dropbox = {};
+config.http = {};
+
+config.mongodb.host = 'localhost';
+config.mongodb.port = 27017;
+config.mongodb.user = '';
+config.mongodb.password = '';
+config.mongodb.database = 'wolkentask';
+
+// Format:     mongodb://[username:password@]host1[:port1][/[database]
+
+config.mongodb.uri = "mongodb://"
+if(config.mongodb.user.length && config.mongodb.password.length)
+	config.mongodb.uri += config.mongodb.user + ":" + config.mongodb.password + "@";
+config.mongodb.uri += config.mongodb.host;
+if(config.mongodb.port.toString().length)
+	config.mongodb.uri += ":" + config.mongodb.port.toString();
+if(config.mongodb.database.length)
+	config.mongodb.uri += "/" + config.mongodb.database;
+
+config.dropbox.app_key = 'YOUR APP KEY';
+config.dropbox.app_secret = 'YOUR APP SECRET';
+config.dropbox.auth_callback_url = 'YOUR AUTH CALLBACK URL';
+
+config.http.port = 3000;
+config.http.cookie_secret = 'RANDOM COOKIE SECRET';
+
+// config.twitter.password=  process.env.TWITTER_PASSWORD || 'password';
+// config.web.port = process.env.WEB_PORT || 9980;
+
+module.exports = config;
