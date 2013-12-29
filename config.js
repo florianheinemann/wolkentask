@@ -24,7 +24,7 @@ config.dropbox.app_key = process.env.DROPBOX_APP_KEY || 'YOUR APP KEY';
 config.dropbox.app_secret = process.env.DROPBOX_APP_SECRET || 'YOUR APP SECRET';
 config.dropbox.auth_callback_url = process.env.DROPBOX_APP_CALLBACK || 'http://YOUR SERVER:PORT/auth/dropbox/callback';
 
-config.http.port = process.env.HTTP_PORT || 3000;
+config.http.port = process.env.PORT || 3000;
 config.http.cookie_secret = process.env.HTTP_COOKIE_SECRET || 'YOUR COOKIE SECRET';
 
 module.exports = config;
