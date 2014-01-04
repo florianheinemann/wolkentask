@@ -12,7 +12,7 @@
     "connect-mongostore": "*",
     "mongoose": "3.*",
     "passport": "*",
-    "passport-dropbox-oauth2": "*"
+    "passport-dropbox-oauth2": ">=0.1.15"
   },
   "repository": {
     "type": "git",
