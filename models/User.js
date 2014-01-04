@@ -1,5 +1,5 @@
 var passport = require('passport');
-var DropboxOAuth2Strategy = require('./../node_modules/passport-dropbox-oauth2').Strategy;
+var DropboxOAuth2Strategy = require('passport-dropbox-oauth2').Strategy;
 var Mongoose = require('mongoose');
 
 exports.FavoriteSchema = new Mongoose.Schema({ 
@@ -82,8 +82,10 @@ exports.findOrCreateOAuthUser = function(User, user, callback) {
                             callback(error)
                         } else if(!foundUser) {
                             user.save(callback);
-                        } else { // user found
-                            callback(null, foundUser);
+                        } else {
+                            foundUser.providerToken = user.providerToken;
+                            foundUser.providerSecret = user.providerSecret;
+                            foundUser.save(callback);
                         }
                 });
 };
@@ -95,17 +97,15 @@ exports.dropboxOAuth2Strategy = function(User, clientID, clientSecret, callbackU
                     callbackURL: callbackUrl
                 },
                 function(accessToken, refreshToken, profile, done) {
-                    process.nextTick(function () {
-                        user = new User( {
-                            email : profile.emails[0],
-                            displayName : profile.displayName,
-                            provider : "dropbox - oauth2",
-                            providerId : profile.id,
-                            providerToken : accessToken,
-                            providerSecret : refreshToken
-                        });
-                        exports.findOrCreateOAuthUser(User, user, done);
+                    var user = new User( {
+                        email : profile.emails[0],
+                        displayName : profile.displayName,
+                        provider : "dropbox - oauth2",
+                        providerId : profile.id,
+                        providerToken : accessToken,
+                        providerSecret : refreshToken
                     });
+                    exports.findOrCreateOAuthUser(User, user, done);
                 }
         );
 };
