@@ -32,3 +32,7 @@ Path.prototype.basename = function(ext) {
 	}
 	return f;
 };
+
+Path.prototype.extname = function() {
+	return this.splitPath(this.path)[3];
+};

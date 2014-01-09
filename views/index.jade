@@ -37,6 +37,8 @@ block content
 								file-listing(wt-name="fileOrFolder.name", wt-type="folder", wt-open="requestFolderContent(fileOrFolder.path)")
 							li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : false } | orderBy:'name'")
 								file-listing(wt-name="fileOrFolder.name", wt-type="file", wt-open="getFile(fileOrFolder.path)")
+							li
+								new-file(wt-create="createNewFile(path)", wt-path="currentFolder")
 			div.col-xs-12.col-sm-8(ng-show="currentFileName", ng-cloak)
 				div.panel.panel-default
 					div.panel-heading {{currentFileName}}

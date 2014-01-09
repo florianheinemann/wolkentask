@@ -81,6 +81,24 @@ function WolkentaskController($scope, $http, $q, favoritesService) {
         return deferred.promise;
     };
 
+    $scope.createNewFile = function(path) {
+        var deferred = $q.defer();
+
+        $scope.dropboxClient.writeFile(path, "- [ ] Your first todo", 
+                                        { noOverwrite: true }, 
+                                        function(error, fileStat) {
+                                            if(!error) {
+                                                $scope.requestFolderContent($scope.currentFolder).then(function() {
+                                                    deferred.resolve();
+                                                });
+                                            } else {
+                                                deferred.reject();
+                                            }
+                                        });
+
+        return deferred.promise;
+    }
+
     $scope.getFile = function(path) {        
         var deferred = $q.defer();
 

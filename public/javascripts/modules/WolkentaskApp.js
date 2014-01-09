@@ -121,6 +121,74 @@ var wolkentask = angular.module('wolkentask', []);
 		};
 	});
 
+	wolkentask.directive("newFile", function() {
+		return {
+			restrict: "E",
+			scope: {
+				wtPath: '=',
+				wtCreate: '&'
+			},
+			link: function ($scope, element) {
+				$scope.fileName = '';
+				$scope.displayEdit = false;
+				$scope.displayError = false;
+
+				var formEl = element.find("form");
+
+				var resetFields = function() {
+					$scope.fileName = '';
+					$scope.displayEdit = false;
+					$scope.displayError = false;
+					formEl.removeClass("has-error");
+				}
+
+				var validFileExt = ['', '.applescript', '.as', '.as3', '.c', '.cc', '.clisp', '.coffee', '.cpp', '.cs', 
+									'.css', '.csv', '.cxx', '.def', '.diff', '.erl', '.fountain', '.ft', '.h', '.hpp',
+									'.htm', '.html', '.hxx', '.inc', '.ini', '.java', '.js', '.json', '.less', '.log',
+									'.lua', '.m', '.markdown', '.mat', '.md', '.mdown', '.mkdn', '.mm', '.mustache',
+									'.mxml', '.patch', '.php', '.phtml', '.pl', '.plist', '.properties', '.py', '.rb',
+									'.sass', '.scss', '.sh', '.shtml', '.sql', '.taskpaper', '.tex', '.text', '.tmpl',
+									'.tsv', '.txt', '.url', '.vb', '.xhtml', '.xml', '.yaml', '.yml'];
+
+				$scope.onCancelClick = function() {
+					resetFields();
+				};
+
+				$scope.onNewClick = function() {
+					$scope.displayEdit = true;
+				};
+
+				$scope.onSaveClick = function() {
+					var lowerFileExt = new Path($scope.fileName).extname().toLowerCase();
+					var found = false;
+					for (var i = validFileExt.length - 1; i >= 0; i--) {
+						if(validFileExt[i] === lowerFileExt) {
+							found = true;
+							break;
+						}
+					};
+					if(!found) {
+						$scope.displayError = true;
+						formEl.addClass("has-error");		
+						return;
+					};
+
+					var path = $scope.wtPath;
+					var lastChar = (path.length > 0) ? path[path.length - 1] : '';
+					if(lastChar !== '/' && lastChar !== '\\')
+						path += '/';
+					path += $scope.fileName;
+
+					$scope.wtCreate({ path: path }).finally(function() {
+						resetFields();
+					});
+				};
+			},
+			replace: true,
+			templateUrl: "/partials/newFile"
+		};
+	});
+
 	wolkentask.directive("syncButton", function() {
 		return {
 			restrict: "E",

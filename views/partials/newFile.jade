@@ -1,0 +1,13 @@
+span
+	span.ng-show(ng-show="!displayEdit")
+		i.fa.fa-fw.fa-file-o
+		a(ng-click="onNewClick()", href="")
+			span New file...
+	span.ng-hide(ng-show="displayEdit")
+		form.form-inline(role="form", ng-submit="onSaveClick()")
+			label.control-label.ng-hide(for="newFileInput", ng-show="displayError") Only text files are allowed
+			span.input-group
+				input.form-control#newFileInput(type="text", ng-model="fileName", placeholder="New file.md")
+				span.input-group-btn
+					button.btn.btn-default(type="submit") New
+					button.btn.btn-default(type="button", ng-click="onCancelClick()") X
