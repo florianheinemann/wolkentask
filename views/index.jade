@@ -5,7 +5,7 @@ block head
 	script(type='text/javascript', src='/javascripts/controllers/WolkentaskController.js')
 
 block content
-	div.container(ng-controller="WolkentaskController", ng-init="initialize('#{providerId}', '#{providerToken}', '#{userId}', '#{dropboxAppKey}'); requestFolderContent(''); requestFavorites()")
+	div.container(ng-controller="WolkentaskController", ng-init="initialize('#{providerId}', '#{providerToken}', '#{dropboxAppKey}')")
 		div.navbar.navbar-default.navbar-collapse(role="navigation")
 			div.navbar-header
 				button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bs-wt-navbar-collapse-1")

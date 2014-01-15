@@ -3,8 +3,7 @@ exports.index = function(dropboxAppKey) {
 		res.render('index', { title: 'Wolkentask',
 							dropboxAppKey: dropboxAppKey,
 	  						providerId : req.user.providerId,
-	  						providerToken : req.user.providerToken,
-	  						userId : req.user.id });
+	  						providerToken : req.user.providerToken });
 	};
 };
 

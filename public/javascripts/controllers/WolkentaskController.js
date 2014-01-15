@@ -1,19 +1,5 @@
-function WolkentaskController($scope, $http, $q, favoritesService) {
+function WolkentaskController($scope, $http, $q, $window, favoritesService, exceptionService, dropboxClientService) {
 
-    $scope.dropboxClient = null;
-
-    $scope.accountInfo = {
-        quota: 0,
-        usedQuota: 0
-    };
-
-    $scope.userCredentials = {
-            providerId : null,
-            providerToken: null,
-            userId: null
-    };
-
-    $scope.dropboxAppKey = '';
     $scope.filesAndFolders = [];
     $scope.parentFolder = '';
     $scope.currentFolder = '';
@@ -28,14 +14,18 @@ function WolkentaskController($scope, $http, $q, favoritesService) {
     };
     $scope.saveStatus = "saved";
 
-    $scope.initialize = function(providerId, providerToken, userId, dropboxAppKey) {
-        $scope.userCredentials.providerId = providerId;
-        $scope.userCredentials.providerToken = providerToken;
-        $scope.userCredentials.userId = userId;
-        $scope.dropboxAppKey = dropboxAppKey;
-        $scope.dropboxClient = new Dropbox.Client({ key: dropboxAppKey,
-                                                    token: providerToken,
-                                                    uid: providerId });
+    $scope.$on('error', function(name, errorType, errorAction, message) {
+        alert(message);
+
+        if(errorAction === 2) {
+            $window.location.href = '/logout';
+        }
+    });
+
+    $scope.initialize = function(providerId, providerToken, dropboxAppKey) {
+
+        dropboxClientService.initialize(providerId, providerToken, dropboxAppKey);
+        $scope.requestFolderContent('');
 
         favoritesService.receiveFavorites(true).then(function(data) {
             $scope.favorites = data;
@@ -46,73 +36,51 @@ function WolkentaskController($scope, $http, $q, favoritesService) {
         return (!$scope.currentFolder || $scope.currentFolder == "" || $scope.currentFolder == "." || $scope.currentFolder == "/");
     }
 
-    $scope.refreshAccountInfo = function() {
-        $scope.dropboxClient.getAccountInfo(null, function(error, info, json_info) {
-            $scope.$apply(function() {
-                if(!error) {
-                    $scope.accountInfo.quota = info.quota;
-                    $scope.accountInfo.usedQuota = info.usedQuota;
-                }     
-            })
-        });
-    };
-
     $scope.requestFolderContent = function(path) {
         var deferred = $q.defer();
 
-        $scope.dropboxClient.readdir(path, {}, function(error, childNames, folderStat, childStats) {
-            $scope.$apply(function() {
-                if(!error) {
-                    $scope.filesAndFolders = [];
-                    childStats.forEach(function(childStat) {
-                        $scope.filesAndFolders.push({
-                            path : childStat.path,
-                            name : childStat.name,
-                            isFolder : childStat.isFolder
-                        });
-                    });
-                    $scope.parentFolder = new Path(path).dirname();
-                    $scope.currentFolder = path;
-                }
+        dropboxClientService.listDirectoryContent(path).then(
+            function(data) {
+                $scope.filesAndFolders = data;
+                $scope.parentFolder = new Path(path).dirname();
+                $scope.currentFolder = path;
                 deferred.resolve();
-            })
-        });
+            }, function(error) {
+                exceptionService.raiseError(error);
+                deferred.reject();
+            });
 
         return deferred.promise;
     };
 
     $scope.createNewFile = function(path) {
         var deferred = $q.defer();
-
-        $scope.dropboxClient.writeFile(path, "- [ ] Your first todo", 
-                                        { noOverwrite: true }, 
-                                        function(error, fileStat) {
-                                            if(!error) {
-                                                $scope.requestFolderContent($scope.currentFolder).then(function() {
-                                                    deferred.resolve();
-                                                });
-                                            } else {
-                                                deferred.reject();
-                                            }
-                                        });
-
+        dropboxClientService.writeFile(path, "- [ ] Your first todo", 
+                { noOverwrite: true }).then(
+                function(success) {
+                    $scope.requestFolderContent($scope.currentFolder).then(function(fileStat) {
+                        deferred.resolve();
+                    });
+                }, function(error) {
+                    exceptionService.raiseError(error);
+                    deferred.reject();
+                });
         return deferred.promise;
-    }
+    };
 
     $scope.getFile = function(path) {        
         var deferred = $q.defer();
 
-        $scope.dropboxClient.readFile(path, {}, function(error, data, fileStat, range) {
-            $scope.$apply(function() {
-                if(!error) {
-                    $scope.currentFilePath = path;
-                    $scope.currentFileName = new Path(path).basename();
-                    $scope.currentFileData = parseFile(data);
-                    $scope.currentFileVersion = fileStat.versionTag;
-                    $scope.saveStatus = "saved";
-                }
-                deferred.resolve();
-            })
+        dropboxClientService.readFile(path).then(function(success) {
+            $scope.currentFilePath = path;
+            $scope.currentFileName = new Path(path).basename();
+            $scope.currentFileData = parseFile(success.data);
+            $scope.currentFileVersion = success.fileStat.versionTag;
+            $scope.saveStatus = "saved";  
+            deferred.resolve();         
+        }, function(error) {
+            exceptionService.raiseError(error);
+            deferred.reject();
         });
 
         return deferred.promise;
@@ -214,18 +182,15 @@ function WolkentaskController($scope, $http, $q, favoritesService) {
             if(dataToWrite.length > 0)
                 dataToWrite = dataToWrite.substr(0, dataToWrite.length - 1);
 
-            $scope.dropboxClient.writeFile($scope.currentFilePath, dataToWrite, 
-                                            { lastVersionTag: $scope.currentFileVersion }, 
-                                            function(error, fileStat) {
-                $scope.$apply(function() {
-                    if(!error) {
-                        $scope.currentFileVersion = fileStat.versionTag;
-                        $scope.saveStatus = "saved";
-                    } else {
-                        $scope.saveStatus = "unsaved";
-                    }
-                })
-            });
+            dropboxClientService.writeFile($scope.currentFilePath, dataToWrite, 
+                        { lastVersionTag: $scope.currentFileVersion }).then(
+                            function(fileStat) {
+                                $scope.currentFileVersion = fileStat.versionTag;
+                                $scope.saveStatus = "saved";
+                            }, function(error) {
+                                exceptionService.raiseError(error);
+                                $scope.saveStatus = "unsaved";
+                            });
         }
     };
 }

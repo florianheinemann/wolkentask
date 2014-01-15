@@ -33,7 +33,7 @@ var wolkentask = angular.module('wolkentask', []);
 				return function ($scope, $element, $attrs, $controller) {
 					$scope.open = function() {
 						$scope.loading = true;
-						$scope.wtOpen().then(function() {
+						$scope.wtOpen().finally(function() {
 							$scope.loading = false;
 						});
 					};
@@ -220,6 +220,98 @@ var wolkentask = angular.module('wolkentask', []);
 			templateUrl: "/partials/syncButton"
 		};
 	});
+
+	wolkentask.service('dropboxClientService', ['$q', function(q) {
+		var dropboxClient = null;
+
+		this.initialize = function(providerId, providerToken, dropboxAppKey) {
+			dropboxClient = new Dropbox.Client({ key: dropboxAppKey,
+                                                token: providerToken,
+                                                uid: providerId });
+		};
+
+		this.listDirectoryContent = function(path) {
+	        var deferred = q.defer();
+
+	        dropboxClient.readdir(path, {}, function(error, childNames, folderStat, childStats) {
+                if(!error) {
+                    var filesAndFolders = [];
+                    childStats.forEach(function(childStat) {
+                        filesAndFolders.push({
+                            path : childStat.path,
+                            name : childStat.name,
+                            isFolder : childStat.isFolder
+                        });
+                    });
+                    deferred.resolve(filesAndFolders);
+                } else {
+                	deferred.reject(error);
+                }
+	        });
+
+	        return deferred.promise;
+		};
+
+		this.writeFile = function(path, data, options) {
+	        var deferred = q.defer();
+
+	        dropboxClient.writeFile(path, data, options, 
+                function(error, fileStat) {
+                    if(!error) {	
+                        deferred.resolve(fileStat);
+                    } else {
+                        deferred.reject(error);
+                    }
+                });
+
+	        return deferred.promise;
+		};
+
+		this.readFile = function(path) {
+			var deferred = q.defer();
+
+			dropboxClient.readFile(path, {}, function(error, data, fileStat, range) {
+				if(!error) {
+					deferred.resolve( {
+						data: data,
+						fileStat: fileStat
+					} );
+				} else {
+					deferred.reject(error);
+				}
+			});
+
+			return deferred.promise;
+		};
+	}]);
+
+	wolkentask.service('exceptionService', ['$rootScope', '$q', function(rootScope, q) {
+		var ErrorEnum = { information:1, warning:2, fault:3 };
+		var ErrorActionEnum = { inform:1, logout:2 };
+		if(Object.freeze) {
+			Object.freeze(ErrorEnum);
+			Object.freeze(ErrorActionEnum);
+		}
+
+		this.raiseError = function(errorType, errorAction, message) {
+			if(errorType instanceof Dropbox.ApiError) {
+				var error = errorType;
+				if(error.status === Dropbox.ApiError.INVALID_TOKEN)
+					this.raiseError(ErrorEnum.warning, ErrorActionEnum.logout, "You have been logged out by Dropbox. Please re-authorize");
+				else if(error.status === Dropbox.ApiError.NOT_FOUND)
+					this.raiseError(ErrorEnum.warning, ErrorActionEnum.inform, "The folder / file doesn't exist");
+				else if(error.status === Dropbox.ApiError.RATE_LIMITED)
+					this.raiseError(ErrorEnum.warning, ErrorActionEnum.inform, "You have exceeded the number of queries to the Dropbox API. Please retry in a couple of minutes")
+				else if (error.status === Dropbox.ApiError.OVER_QUOTA)
+					this.raiseError(ErrorEnum.fault, ErrorActionEnum.inform, "You've run out of storage. Your request couldn't be completed")
+				else
+					this.raiseError(ErrorEnum.fault, ErrorActionEnum.inform, "Critical issue occurred " + error.responseText);
+			} else {
+				rootScope.$broadcast('error', errorType, errorAction, message);
+			}
+		};
+
+	}]);
 
 	wolkentask.service('favoritesService', ['$http', '$q', function(http, q) {
 
