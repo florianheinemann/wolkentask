@@ -132,6 +132,7 @@ var wolkentask = angular.module('wolkentask', []);
 				$scope.fileName = '';
 				$scope.displayEdit = false;
 				$scope.displayError = false;
+				$scope.waiting = false;
 
 				var formEl = element.find("form");
 
@@ -139,6 +140,7 @@ var wolkentask = angular.module('wolkentask', []);
 					$scope.fileName = '';
 					$scope.displayEdit = false;
 					$scope.displayError = false;
+					$scope.waiting = false;
 					formEl.removeClass("has-error");
 				}
 
@@ -179,6 +181,7 @@ var wolkentask = angular.module('wolkentask', []);
 						path += '/';
 					path += $scope.fileName;
 
+					$scope.waiting = true;
 					$scope.wtCreate({ path: path }).finally(function() {
 						resetFields();
 					});
