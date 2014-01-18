@@ -3,16 +3,18 @@ span
 
 		span.todo-group
 			label
-				span.todo-checkbox
-					input(type="checkbox", ng-model="wtDone", ng-change="update()")
+				span.todo-cell
+					div.todo-checkbox
+						input(type="checkbox", ng-model="wtDone", ng-change="update()")
 				span.todo-text {{wtData}}
-					span.btn-group
-						button.btn.btn-default.btn-xs(type="button", ng-click="showEdit()")
-							i.fa.fa-fw.fa-pencil
-							| Edit
-						button.btn.btn-default.btn-xs(type="submit", ng-click="wtDelete()")
-							i.fa.fa-fw.fa-times
-							| Delete
+			span.todo-actions
+				span.btn-group
+					button.btn.btn-default.btn-xs(type="button", ng-click="showEdit()")
+						i.fa.fa-fw.fa-pencil
+						| Edit
+					button.btn.btn-default.btn-xs(type="submit", ng-click="wtDelete()")
+						i.fa.fa-fw.fa-times
+						| Delete
 
 	span.ng-hide(ng-show="displayEdit")
 
