@@ -92,13 +92,15 @@ var wolkentask = angular.module('wolkentask', []);
 		};
 	}]);
 
-	wolkentask.directive("inlineEdit", function() {
+	wolkentask.directive("singleTodo", function() {
 		return {
 			restrict: "E",
 			scope: {
 				wtData: '=',
+				wtDone: '=',
 				wtSave: '&',
-				wtDelete: '&'
+				wtDelete: '&',
+				wtUpdate: '&'
 			},
 			controller: function($scope) {
 				$scope.cancel = function() {
@@ -115,9 +117,14 @@ var wolkentask = angular.module('wolkentask', []);
 					$scope.displayEdit = false;
 					$scope.wtSave();
 				};
+
+				$scope.update = function() {
+					$scope.displayEdit = false;
+					$scope.wtUpdate();
+				}
 			},
 			replace: true,
-			templateUrl: "/partials/inlineEdit"
+			templateUrl: "/partials/singleTodo"
 		};
 	});
 

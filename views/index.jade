@@ -56,12 +56,7 @@ block content
 
 						ul.list-unstyled
 							li(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
-								span.input-group-btn
-									input(type="checkbox", ng-model="todo.done", ng-change="updateTodo(todo)")
-									inline-edit(wt-data="todo.displayData", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)")
+								single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
 						ul.list-unstyled
 							li(ng-repeat="todo in currentFileData | filter: { display: true, done: true }")
-								span
-									input(type="checkbox", ng-model="todo.done", ng-change="updateTodo(todo)")
-									del
-										inline-edit(wt-data="todo.displayData", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)")
+								single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
