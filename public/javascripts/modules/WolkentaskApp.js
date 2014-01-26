@@ -125,6 +125,7 @@ var wolkentask = angular.module('wolkentask', []);
 
 				$scope.save = function() {
 					$scope.displayEdit = false;
+					$scope.originalText = $scope.wtData;
 					$scope.wtSave();
 				};
 

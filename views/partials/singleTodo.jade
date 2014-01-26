@@ -18,7 +18,7 @@ span
 			div.wt-todo-checkbox
 				input(type="checkbox", ng-model="wtDone", ng-change="update()")
 			div.wt-todo-text
-				input(type="text", ng-model="wtData")
+				input(type="text", ng-model="wtData", ng-blur="cancel()")
 			div.wt-btn-group
 				div.btn-group
 					button.btn.btn-default.btn-xs(type="submit")
