@@ -2,64 +2,119 @@
   display: none !important;
 }
 
-.todo-group {
-	box-sizing: border-box;
-	display: table;
-	line-height: 1;
+body {
+	color: #343745;
 }
 
-.todo-group label {
-	margin: 0px;
-	font-weight: normal;
-	width: 100%;
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Gloria Hallelujah', Helvetica, Arial, sans-serif;
 }
 
-.todo-cell {
+.btn {
+	border: 0px;
+}
+
+.wt-todo-item {
+	padding-bottom: 2px;
+	padding-top: 7px;
+	border-bottom: dotted 1px #000000;
+}
+
+.wt-todo-item:last-child {
+	border-bottom: none;
+}
+
+.wt-todo-group {
+	min-height: 26px;
+	position: relative;
+}
+
+.wt-todo-group:hover .wt-todo-text p {
+	overflow: visible;
+	white-space: normal;
+}
+
+.wt-todo-checkbox {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 30px;	
 	text-align: center;
-	width: 1%;
+}
+
+.wt-todo-text {
+	margin: 0px 130px 0px 30px;
+}
+
+@media (max-width: 767px) {
+	.wt-todo-text {
+		margin: 0px 75px 0px 30px;	
+	}
+}
+
+.wt-todo-text p {
+	margin: 0px;
+	width: 100%;
 	white-space: nowrap;
-	vertical-align: middle;
-	display: table-cell;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-.todo-cell input[type="checkbox"] {
-	margin-top: 0px;
+.wt-todo-text input[type="text"] {
+	width: 100%;
+	outline: 0;
+	border: none;
 }
 
-.todo-checkbox {
-	padding: 6px 12px;
-	height: 34px;
-	border-radius: 4px;
-	border: 1px solid #ccc;
-}
-
-.todo-text {
-	display: table-cell;
-	width: 100%; 
-	padding: 6px 12px;
+.wt-todo-text input::-webkit-input-placeholder { 
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: 14px;
-	line-height: 1;
-	color: #555;
-	vertical-align: middle;
+	font-style: italic;
 }
 
-.todo-text > .btn-group {
-	padding-left: 10px;
+.wt-todo-text input:-moz-placeholder { 
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	font-style: italic;
 }
 
-.todo-actions {
-	width: 1%;
-	min-width: 120px;
-	white-space: nowrap;
-	height: 34px;
-	vertical-align: middle;
-	display: table-cell;
+.wt-todo-text input::-moz-placeholder { 
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	font-style: italic;
 }
 
-.todo-actions .btn-group {
-	display: none;
+.wt-todo-text input:-ms-input-placeholder { 
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	font-style: italic;
 }
 
-.todo-group:hover .todo-actions .btn-group {
-	display: inline;
+.wt-btn-group {
+	text-align: right;
+	position: absolute;
+	right: 10px;
+	top: 0px;
+	width: 120px;
+}
+
+.wt-btn-group button {
+	color: #E75849;
+	border-color: #E75849;
+}
+
+@media (max-width: 767px) {
+	.wt-btn-group {
+		width: 65px;	
+	}
+}
+
+.hidden-inline-xs {
+	display: inline!important;
+}
+
+@media (max-width: 767px) {
+	.hidden-inline-xs {
+		display: none!important;
+	}
 }

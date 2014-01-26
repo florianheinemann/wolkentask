@@ -1,32 +1,29 @@
 span
-	span.ng-show(ng-hide="displayEdit")
+	div.wt-todo-group.ng-show(ng-hide="displayEdit")
+		div.wt-todo-checkbox
+			input(type="checkbox", ng-model="wtDone", ng-change="update()")
+		div.wt-todo-text
+			p(ng-click="showEdit()") {{wtData}}
+		div.wt-btn-group
+			div.btn-group
+				button.btn.btn-default.btn-xs(type="button", ng-click="showEdit()")
+					i.fa.fa-fw.fa-pencil
+					span.hidden-inline-xs Edit
+				button.btn.btn-default.btn-xs(type="button", ng-click="wtDelete()")
+					i.fa.fa-fw.fa-times
+					span.hidden-inline-xs Delete
 
-		span.todo-group
-			label
-				span.todo-cell
-					div.todo-checkbox
-						input(type="checkbox", ng-model="wtDone", ng-change="update()")
-				span.todo-text {{wtData}}
-			span.todo-actions
-				span.btn-group
-					button.btn.btn-default.btn-xs(type="button", ng-click="showEdit()")
-						i.fa.fa-fw.fa-pencil
-						| Edit
-					button.btn.btn-default.btn-xs(type="submit", ng-click="wtDelete()")
-						i.fa.fa-fw.fa-times
-						| Delete
-
-	span.ng-hide(ng-show="displayEdit")
-
+	div.wt-todo-group.ng-hide(ng-show="displayEdit")
 		form.form-inline(role="form", ng-submit="save()")
-			span.input-group
-				span.input-group-addon
-					input(type="checkbox", ng-model="wtDone", ng-change="update()")
-				input.form-control(type="text", ng-model="wtData")
-				span.input-group-btn
-					button.btn.btn-default(type="submit")
+			div.wt-todo-checkbox
+				input(type="checkbox", ng-model="wtDone", ng-change="update()")
+			div.wt-todo-text
+				input(type="text", ng-model="wtData")
+			div.wt-btn-group
+				div.btn-group
+					button.btn.btn-default.btn-xs(type="submit")
 						i.fa.fa-fw.fa-save
-						| Save
-					button.btn.btn-default(type="button", ng-click="cancel()")
+						span.hidden-inline-xs Save
+					button.btn.btn-default.btn-xs(type="button", ng-click="cancel()")
 						i.fa.fa-fw.fa-undo
-						| Cancel
+						span.hidden-inline-xs Cancel

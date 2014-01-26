@@ -92,7 +92,7 @@ var wolkentask = angular.module('wolkentask', []);
 		};
 	}]);
 
-	wolkentask.directive("singleTodo", function() {
+	wolkentask.directive("singleTodo", function($timeout) {
 		return {
 			restrict: "E",
 			scope: {
@@ -102,7 +102,10 @@ var wolkentask = angular.module('wolkentask', []);
 				wtDelete: '&',
 				wtUpdate: '&'
 			},
-			controller: function($scope) {
+			link: function($scope, $element) {
+
+				var inputBoxEl = $element.find("input")[2];
+
 				$scope.cancel = function() {
 					$scope.wtData = $scope.originalText;
 					$scope.displayEdit = false;
@@ -111,6 +114,13 @@ var wolkentask = angular.module('wolkentask', []);
 				$scope.showEdit = function() {
 					$scope.originalText = $scope.wtData;
 					$scope.displayEdit = true;
+
+					$timeout(
+						function() { 
+							inputBoxEl.focus(); 
+							inputBoxEl.select(); 
+						}
+					);
 				};
 
 				$scope.save = function() {
