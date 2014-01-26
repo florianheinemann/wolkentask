@@ -22,8 +22,9 @@ block content
 			div.col-xs-12.col-sm-4
 				h3 Favorites
 				ul.list-unstyled
-					li(ng-repeat="favorite in favorites" ng-cloak)
+					li.wt-fav(ng-repeat="favorite in favorites" ng-cloak)
 						file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path)")
+					li.wt-no-fav No favorites yet
 
 				h3 File browser
 				folder-path(wt-path="currentFolder")
