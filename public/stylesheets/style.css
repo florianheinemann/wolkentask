@@ -23,6 +23,20 @@ h1, h2, h3, h4, h5, h6 {
 	display: none;
 }
 
+.wt-file-list li a, 
+.wt-file-list li .wt-file-no-file,
+.wt-file-list .wt-no-fav {
+	display: block;
+	padding: 3px 0px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.wt-file-list li a:hover {
+	background-color: #EEEFF7;
+}
+
 .wt-todo-item {
 	padding-bottom: 2px;
 	padding-top: 7px;
@@ -64,9 +78,21 @@ h1, h2, h3, h4, h5, h6 {
 .wt-todo-text p {
 	margin: 0px;
 	width: 100%;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+	overflow: visible;
+	white-space: normal;
+}
+
+@media(min-width:768px) {
+	.wt-todo-text p {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.wt-todo-group:hover .wt-todo-text p {
+		overflow: visible;
+		white-space: normal;
+	}
 }
 
 .wt-todo-text input[type="text"] {

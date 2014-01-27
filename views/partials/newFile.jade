@@ -1,8 +1,8 @@
 span
 	span.ng-show(ng-show="!displayEdit")
-		i.fa.fa-fw.fa-file-o
 		a(ng-click="onNewClick()", href="")
-			span New file...
+			i.fa.fa-fw.fa-file-o
+			| New file...
 	span.ng-hide(ng-show="displayEdit")
 		span.ng-show(ng-hide="waiting")
 			form.form-inline(role="form", ng-submit="onSaveClick()")
