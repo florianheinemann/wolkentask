@@ -5,6 +5,8 @@ block head
 	script(type='text/javascript', src='/javascripts/controllers/WolkentaskController.js')
 
 block content
+	header#wt-top
+		h1 wolkentask
 	div(ng-controller="WolkentaskController", ng-init="initialize('#{providerId}', '#{providerToken}', '#{dropboxAppKey}')")
 		div.navbar.navbar-default.navbar-collapse(role="navigation")
 			div.navbar-header
@@ -18,8 +20,8 @@ block content
 				ul.nav.navbar-nav
 					li
 						a(href="/logout") Logout
-		div.row
-			div.col-xs-12.col-sm-4
+		div.section
+			div.col.span_1_of_3
 				h3 Favorites
 				ul.list-unstyled.wt-file-list
 					li.wt-fav(ng-repeat="favorite in favorites" ng-cloak)
@@ -39,26 +41,24 @@ block content
 					li
 						new-file(wt-create="createNewFile(path)", wt-path="currentFolder")
 
-			div.col-xs-12.col-sm-8(ng-show="currentFileName", ng-cloak)
+			div.col.span_2_of_3(ng-show="currentFileName", ng-cloak)
 
 				h2 {{currentFileName}}
-					div.btn-group.pull-right
-						favorite-star(wt-path="currentFilePath")
-						sync-button(wt-status="saveStatus", wt-save="saveFile()")
+				favorite-star(wt-path="currentFilePath")
+				sync-button(wt-status="saveStatus", wt-save="saveFile()")
 
 				h3 Todo
 				ul.list-unstyled
 					li.wt-todo-item
 						div.wt-todo-group
-							form.form-inline(role="form", ng-submit="addNewTodo()")
+							form(role="form", ng-submit="addNewTodo()")
 								div.wt-todo-text
 									label.sr-only(for="formAddTodo") New Todo
 									input#formAddTodo(type="text", placeholder="New Todo", ng-model="newTodo.rawData")
 								div.wt-btn-group
-									div.btn-group
-										button.btn.btn-default.btn-xs(type="submit")
-											i.fa.fa-fw.fa-save
-											span.hidden-inline-xs Add
+									button.btn.btn-xs(type="submit")
+										i.fa.fa-fw.fa-save
+										span.hidden-inline-xs Add
 					li.wt-todo-item(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
 						single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
 				h3 Done

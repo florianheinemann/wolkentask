@@ -118,7 +118,8 @@ var wolkentask = angular.module('wolkentask', []);
 					$timeout(
 						function() { 
 							inputBoxEl.focus(); 
-							inputBoxEl.select(); 
+							inputBoxEl.selectionStart = 0;
+							inputBoxEl.selectionEnd = inputBoxEl.value.length;
 						}
 					);
 				};
@@ -139,7 +140,7 @@ var wolkentask = angular.module('wolkentask', []);
 		};
 	});
 
-	wolkentask.directive("newFile", function() {
+	wolkentask.directive("newFile", function($timeout) {
 		return {
 			restrict: "E",
 			scope: {
@@ -148,7 +149,6 @@ var wolkentask = angular.module('wolkentask', []);
 			},
 			link: function ($scope, element) {
 				$scope.fileName = '';
-				$scope.displayEdit = false;
 				$scope.displayError = false;
 				$scope.waiting = false;
 
@@ -156,7 +156,6 @@ var wolkentask = angular.module('wolkentask', []);
 
 				var resetFields = function() {
 					$scope.fileName = '';
-					$scope.displayEdit = false;
 					$scope.displayError = false;
 					$scope.waiting = false;
 					formEl.removeClass("has-error");
@@ -170,15 +169,7 @@ var wolkentask = angular.module('wolkentask', []);
 									'.sass', '.scss', '.sh', '.shtml', '.sql', '.taskpaper', '.tex', '.text', '.tmpl',
 									'.tsv', '.txt', '.url', '.vb', '.xhtml', '.xml', '.yaml', '.yml'];
 
-				$scope.onCancelClick = function() {
-					resetFields();
-				};
-
-				$scope.onNewClick = function() {
-					$scope.displayEdit = true;
-				};
-
-				$scope.onSaveClick = function() {
+				$scope.onSaveSubmit = function() {
 					var lowerFileExt = new Path($scope.fileName).extname().toLowerCase();
 					var found = false;
 					for (var i = validFileExt.length - 1; i >= 0; i--) {
@@ -200,10 +191,17 @@ var wolkentask = angular.module('wolkentask', []);
 					path += $scope.fileName;
 
 					$scope.waiting = true;
-					$scope.wtCreate({ path: path }).finally(function() {
-						resetFields();
+
+					$timeout(function() {
+						$scope.wtCreate({ path: path }).finally(function() {
+							resetFields();
+						})
 					});
 				};
+
+				$scope.cancel = function() {
+					resetFields();
+				}
 			},
 			replace: true,
 			templateUrl: "/partials/newFile"
@@ -221,7 +219,7 @@ var wolkentask = angular.module('wolkentask', []);
 				var buttonEl = $element;
 
 				$scope.$watch('wtStatus', function() {
-					buttonEl.removeClass("btn-default btn-warning btn-success btn-info");
+					buttonEl.removeClass("btn-warning btn-success btn-info");
 					if($scope.wtStatus == "saving") {
 						buttonEl.addClass("btn-info");
 						buttonEl.text("Saving...");

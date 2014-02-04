@@ -5,25 +5,23 @@ span
 		div.wt-todo-text
 			p(ng-click="showEdit()") {{wtData}}
 		div.wt-btn-group
-			div.btn-group
-				button.btn.btn-default.btn-xs(type="button", ng-click="showEdit()")
-					i.fa.fa-fw.fa-pencil
-					span.hidden-inline-xs Edit
-				button.btn.btn-default.btn-xs(type="button", ng-click="wtDelete()")
-					i.fa.fa-fw.fa-times
-					span.hidden-inline-xs Delete
+			button.btn.btn-xs(type="button", ng-click="showEdit()")
+				i.fa.fa-fw.fa-pencil
+				span.hidden-inline-xs Edit
+			button.btn.btn-xs(type="button", ng-click="wtDelete()")
+				i.fa.fa-fw.fa-times
+				span.hidden-inline-xs Delete
 
 	div.wt-todo-group.ng-hide(ng-show="displayEdit")
-		form.form-inline(role="form", ng-submit="save()")
+		form(role="form", ng-submit="save()")
 			div.wt-todo-checkbox
 				input(type="checkbox", ng-model="wtDone", ng-change="update()")
 			div.wt-todo-text
 				input(type="text", ng-model="wtData", ng-blur="cancel()")
 			div.wt-btn-group
-				div.btn-group
-					button.btn.btn-default.btn-xs(type="submit")
-						i.fa.fa-fw.fa-save
-						span.hidden-inline-xs Save
-					button.btn.btn-default.btn-xs(type="button", ng-click="cancel()")
-						i.fa.fa-fw.fa-undo
-						span.hidden-inline-xs Cancel
+				button.btn.btn-xs(type="submit")
+					i.fa.fa-fw.fa-save
+					span.hidden-inline-xs Save
+				button.btn.btn-xs(type="button", ng-click="cancel()")
+					i.fa.fa-fw.fa-undo
+					span.hidden-inline-xs Cancel
