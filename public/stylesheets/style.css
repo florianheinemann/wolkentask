@@ -13,11 +13,11 @@ body {
 }
 
 h1 {
-	font-size: 36px;
+	font-size: 32px;
 }
 
 h2 {
-	font-size: 30px;
+	font-size: 28px;
 }
 
 h3 {
@@ -205,12 +205,13 @@ input, button, select, textarea {
 	display: block;
 	width: 100%;
 	padding: 6px 12px;
-	margin: 0px 3px;
+	margin: 0px;
 	line-height: 1.2;
 	color: #555;
 	vertical-align: middle;
 	background-color: #fff;
 	border: 1px solid #ccc;
+	box-sizing: border-box;
 }
 
 /* Generic grid layout */
@@ -224,11 +225,9 @@ input, button, select, textarea {
 .col {
 	display: block;
 	float:left;
-	margin: 1% 0 1% 1.6%;
 }
 
 .col:first-child { 
-	margin-left: 0; 
 }
 
 .span_2_of_3 {
@@ -240,10 +239,6 @@ input, button, select, textarea {
 }
 
 @media(max-width: 767px) {
-	.col { 
-		margin: 1% 0 1% 0%;
-	}
-
 	.span_2_of_3 {
 		width: 100%; 
 	}
@@ -256,17 +251,64 @@ input, button, select, textarea {
 /* Specific styles */
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'Gloria Hallelujah', Helvetica, Arial, sans-serif;
+	font-family: 'Roboto', Helvetica, Arial, sans-serif;
+	font-weight: 100;
 }
 
-#wt-top {
+#top {
 	background: #1C1D21;
 	color: #EEEFF7;
+	height: 50px;
 }
 
-#wt-top h1 {
-	margin: 0px;
-	line-height: 1.5em;
+#top h1 {
+	margin: 0px 0px 0px 20px;
+	float: left;
+}
+
+#option-buttons {
+	display: inline;
+	position: absolute;
+	right: 20px;
+	width: 50px;
+}
+
+#option-buttons li {
+	display: block;
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+	font-size: 16px;
+	float: left;
+	text-align: center;
+	border-left: solid 1px #EEEFF7;
+	box-sizing: border-box;
+}
+
+#option-buttons li:last-child {
+	border-right: solid 1px #EEEFF7;
+}
+
+#option-buttons li a {
+	color: #EEEFF7;
+	display: block;
+}
+
+#option-buttons li:hover {
+	background-color: #31353D;
+}
+
+#option-buttons li:hover a {
+	color: #E75849;
+}
+
+#file-pane {
+	background-color: #31353D;
+	padding: 3px;
+}
+
+#file-pane h2, #file-pane h3 {
+	color: #EEEFF7;
 }
 
 .wt-no-fav {
@@ -288,10 +330,12 @@ h1, h2, h3, h4, h5, h6 {
 	display: none;
 }
 
-@media(min-width:768px) {
-	.wt-file-list li a:hover {
-		background-color: #EEEFF7;
-	}
+.wt-file-list li a:hover {
+	background-color: #EEEFF7;
+}
+
+#newFileInput {
+	width: 100%;
 }
 
 .wt-todo-item {

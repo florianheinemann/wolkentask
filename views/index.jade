@@ -5,23 +5,19 @@ block head
 	script(type='text/javascript', src='/javascripts/controllers/WolkentaskController.js')
 
 block content
-	header#wt-top
-		h1 wolkentask
+
 	div(ng-controller="WolkentaskController", ng-init="initialize('#{providerId}', '#{providerToken}', '#{dropboxAppKey}')")
-		div.navbar.navbar-default.navbar-collapse(role="navigation")
-			div.navbar-header
-				button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bs-wt-navbar-collapse-1")
-					span.sr-only Toggle navigation
-					span.icon-bar
-					span.icon-bar
-					span.icon-bar
-				span.navbar-brand #{title}
-			div.collapse.navbar-collapse#bs-wt-navbar-collapse-1
-				ul.nav.navbar-nav
-					li
-						a(href="/logout") Logout
+		
+		header#top
+			h1 wolkentask
+			ul.list-unstyled#option-buttons
+				li
+					a(href="/logout")
+						i.fa.fa-fw.fa-sign-out
+							span.sr-only Logout
+
 		div.section
-			div.col.span_1_of_3
+			div.col.span_1_of_3#file-pane
 				h3 Favorites
 				ul.list-unstyled.wt-file-list
 					li.wt-fav(ng-repeat="favorite in favorites" ng-cloak)

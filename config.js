@@ -1,6 +1,7 @@
 var config = {};
 config.mongodb = {};
 config.dropbox = {};
+config.oauth = {};
 config.http = {};
 
 config.mongodb.host = process.env.MONGO_HOST || '127.0.0.1';
@@ -22,7 +23,11 @@ if(config.mongodb.database.length)
 
 config.dropbox.app_key = process.env.DROPBOX_APP_KEY || 'YOUR APP KEY';
 config.dropbox.app_secret = process.env.DROPBOX_APP_SECRET || 'YOUR APP SECRET';
-config.dropbox.auth_callback_url = process.env.DROPBOX_APP_CALLBACK || 'http://YOUR SERVER:PORT/auth/dropbox/callback';
+config.dropbox.auth_callback_url_host = process.env.DROPBOX_APP_CALLBACK_HOST || 'http://YOUR SERVER:PORT';
+config.dropbox.auth_callback_url = process.env.DROPBOX_APP_CALLBACK || '/auth/dropbox/callback';
+
+// Allows to redirect the OAuth callback to another host
+config.oauth.redirect_host = process.env.OAUTH_REDIRECT_HOST || '';
 
 config.http.port = process.env.PORT || 3000;
 config.http.cookie_secret = process.env.HTTP_COOKIE_SECRET || 'YOUR COOKIE SECRET';
