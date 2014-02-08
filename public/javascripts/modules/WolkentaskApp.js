@@ -405,7 +405,7 @@ var wolkentask = angular.module('wolkentask', []);
 	wolkentask.filter('ensureHomePath', function() {
 		return function(input) {
 			input = input.trim();
-			if(!input || input == "" || input == "/" || input == ".")
+			if(!input || input === "" || input === "/" || input === ".")
 				return "Home";
 			else if(input[0] == "/")
 				return input;

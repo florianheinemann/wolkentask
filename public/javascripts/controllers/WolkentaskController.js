@@ -1,5 +1,7 @@
-function WolkentaskController($scope, $http, $q, $window, favoritesService, exceptionService, dropboxClientService) {
+function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesService, exceptionService, dropboxClientService) {
 
+    var autoSaveTimeout = null;
+    var autoSaveRunning = false;
     $scope.filesAndFolders = [];
     $scope.parentFolder = '';
     $scope.currentFolder = '';
@@ -87,9 +89,6 @@ function WolkentaskController($scope, $http, $q, $window, favoritesService, exce
     };
 
     function parseFile(dataAsString) {
-        
-        // if(stringIsHtml(dataAsString))
-            // return parseHtml(dataAsString);
 
         var parsedData = [];
         splittedString = dataAsString.split("\n");
@@ -160,10 +159,20 @@ function WolkentaskController($scope, $http, $q, $window, favoritesService, exce
 
     function fileChanged() {
         $scope.saveStatus = "unsaved";
+
+        if(!autoSaveRunning) {
+            autoSaveTimeout = $timeout(function() {
+                $scope.saveFile();
+            }, 5000);
+            autoSaveRunning = true;
+            autoSaveTimeout.finally(function() {
+                autoSaveRunning = false;
+            });
+        }
     };
 
     $scope.saveFile = function() {
-        if($scope.currentFileData) {
+        if($scope.currentFileData && $scope.saveStatus === "unsaved") {
             $scope.saveStatus = "saving";
 
             var dataToWrite = "";
