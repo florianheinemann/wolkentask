@@ -29,7 +29,7 @@ h1, h2, h3 {
 	margin-bottom: 10px;
 }
 
-header {
+header, footer {
 	display: block;
 }
 
@@ -90,7 +90,7 @@ input, button, select, textarea {
 	cursor: pointer;
 	border: 1px solid #ccc;
 	border-radius: 4px;
-    color: #333;
+    color: #31353D;
     background-color: #fff;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -100,21 +100,21 @@ input, button, select, textarea {
 }
 
 .btn:focus {
-    outline: thin dotted #333;
+    outline: thin dotted #31353D;
     outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px
 }
 
 .btn:hover, .btn:focus {
-    color: #333;
-    background-color: #ebebeb;
+    color: #31353D;
+    background-color: #EEEFF7;
     border-color: #adadad
     text-decoration: none
 }
 
 .btn:active,.btn.active {
-    color: #333;
-    background-color: #ebebeb;
+    color: #31353D;
+    background-color: #EEEFF7;
     border-color: #adadad
     background-image: none;
     outline: 0;
@@ -192,11 +192,6 @@ input, button, select, textarea {
     border-color: #46b8da
 }
 
-.btn-xs {
-	padding: 1px 5px;
-	font-size: 12px;
-}
-
 .has-error {
 	color: #E75849;
 }
@@ -225,17 +220,15 @@ input, button, select, textarea {
 .col {
 	display: block;
 	float:left;
-}
-
-.col:first-child { 
+	box-sizing: border-box;
 }
 
 .span_2_of_3 {
-	width: 66.1%;
+	width: 67%;
 }
 
 .span_1_of_3 {
-	width: 32.2%;
+	width: 33%;
 }
 
 @media(max-width: 767px) {
@@ -262,8 +255,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #top h1 {
-	margin: 0px 0px 0px 20px;
+	margin: 0px 0px 0px 5px;
 	float: left;
+}
+
+#end {
+	background: #1C1D21;
+	color: #EEEFF7;
+	height: 50px;
+	clear: both;
 }
 
 #option-buttons {
@@ -299,16 +299,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #option-buttons li:hover a {
-	color: #E75849;
+	color: #5FC6F4;
 }
 
 #file-pane {
 	background-color: #31353D;
-	padding: 3px;
+	border-right: #1C1D21 1px solid;
+	padding: 5px;
+	color: #EEEFF7;
 }
 
-#file-pane h2, #file-pane h3 {
-	color: #EEEFF7;
+#content-pane h2, #content-pane h3 {
+	padding: 0px 5px;
 }
 
 .wt-no-fav {
@@ -331,7 +333,30 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .wt-file-list li a:hover {
-	background-color: #EEEFF7;
+	background-color: #5FC6F4;
+	text-decoration: none;
+}
+
+#file-top-nav {
+	position: relative;
+}
+
+#file-top-nav .wt-file-top-name {
+	margin-right: 190px;
+}
+
+#file-top-nav .wt-file-top-name h2 {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#file-top-nav .wt-file-button-bar {
+	position: absolute;
+	right: 9px;
+	top: 0px;
+	width: 190px;
+	text-align: right;
 }
 
 #newFileInput {
@@ -339,36 +364,32 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .wt-todo-item {
-	padding-bottom: 2px;
-	padding-top: 7px;
-	border-bottom: dotted 1px #000000;
+	border-bottom: solid 1px #EEEFF7;
 }
 
 .wt-todo-item:last-child {
 	border-bottom: none;
 }
 
+.wt-todo-item:hover {
+	background-color: #EEEFF7;
+}
+
 .wt-todo-group {
-	min-height: 26px;
+	min-height: 36px;
 	position: relative;
 }
 
 .wt-todo-checkbox {
 	position: absolute;
 	left: 0px;
-	top: 0px;
+	top: 6px;
 	width: 30px;	
 	text-align: center;
 }
 
 .wt-todo-text {
-	margin: 0px 140px 0px 30px;
-}
-
-@media (max-width: 767px) {
-	.wt-todo-text {
-		margin: 0px 85px 0px 30px;	
-	}
+	margin: 0px 84px 0px 30px;
 }
 
 .wt-todo-text p {
@@ -376,6 +397,7 @@ h1, h2, h3, h4, h5, h6 {
 	width: 100%;
 	overflow: visible;
 	white-space: normal;
+	padding-top: 7px;
 }
 
 @media(min-width:768px) {
@@ -395,6 +417,8 @@ h1, h2, h3, h4, h5, h6 {
 	width: 100%;
 	outline: 0;
 	border: none;
+	margin-top: 6px;
+	background-color: transparent;
 }
 
 .wt-todo-text input::-webkit-input-placeholder { 
@@ -428,20 +452,26 @@ h1, h2, h3, h4, h5, h6 {
 .wt-btn-group {
 	text-align: right;
 	position: absolute;
-	right: 10px;
+	right: 9px;
 	top: 0px;
-	width: 130px;
+	width: 70px;
+	padding-top: 3px;
 }
 
 .wt-btn-group button {
-	color: #E75849;
-	border-color: #E75849;
+	width: 30px;
+	height: 30px;
+	padding: 0px;
+	font-size: 16px;
+	margin-right: 5px;
 }
 
-@media (max-width: 767px) {
-	.wt-btn-group {
-		width: 75px;	
-	}
+.wt-btn-group button:hover {
+	background-color: #5FC6F4;
+}
+
+.wt-btn-group button:last-child {
+	margin-right: 0px;
 }
 
 .hidden-inline-xs {

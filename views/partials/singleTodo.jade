@@ -5,12 +5,10 @@ span
 		div.wt-todo-text
 			p(ng-click="showEdit()") {{wtData}}
 		div.wt-btn-group
-			button.btn.btn-xs(type="button", ng-click="showEdit()")
+			button.btn(type="button", ng-click="showEdit()", title="Edit")
 				i.fa.fa-fw.fa-pencil
-				span.hidden-inline-xs Edit
-			button.btn.btn-xs(type="button", ng-click="wtDelete()")
-				i.fa.fa-fw.fa-times
-				span.hidden-inline-xs Delete
+			button.btn(type="button", ng-click="wtDelete()", title="Delete")
+				i.fa.fa-fw.fa-trash-o
 
 	div.wt-todo-group.ng-hide(ng-show="displayEdit")
 		form(role="form", ng-submit="save()")
@@ -19,9 +17,7 @@ span
 			div.wt-todo-text
 				input(type="text", ng-model="wtData", ng-blur="cancel()")
 			div.wt-btn-group
-				button.btn.btn-xs(type="submit")
+				button.btn(type="submit", title="Save")
 					i.fa.fa-fw.fa-save
-					span.hidden-inline-xs Save
-				button.btn.btn-xs(type="button", ng-click="cancel()")
+				button.btn(type="button", ng-click="cancel()", title="Cancel")
 					i.fa.fa-fw.fa-undo
-					span.hidden-inline-xs Cancel

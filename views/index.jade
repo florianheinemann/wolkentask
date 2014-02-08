@@ -37,11 +37,14 @@ block content
 					li
 						new-file(wt-create="createNewFile(path)", wt-path="currentFolder")
 
-			div.col.span_2_of_3(ng-show="currentFileName", ng-cloak)
+			div.col.span_2_of_3#content-pane(ng-show="currentFileName", ng-cloak)
 
-				h2 {{currentFileName}}
-				favorite-star(wt-path="currentFilePath")
-				sync-button(wt-status="saveStatus", wt-save="saveFile()")
+				div#file-top-nav
+					div.wt-file-top-name
+						h2 {{currentFileName}}
+					div.wt-file-button-bar
+						favorite-star(wt-path="currentFilePath")
+						sync-button(wt-status="saveStatus", wt-save="saveFile()")
 
 				h3 Todo
 				ul.list-unstyled
@@ -52,12 +55,13 @@ block content
 									label.sr-only(for="formAddTodo") New Todo
 									input#formAddTodo(type="text", placeholder="New Todo", ng-model="newTodo.rawData")
 								div.wt-btn-group
-									button.btn.btn-xs(type="submit")
+									button.btn(type="submit", title="Add")
 										i.fa.fa-fw.fa-save
-										span.hidden-inline-xs Add
 					li.wt-todo-item(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
 						single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
 				h3 Done
 				ul.list-unstyled
 					li.wt-todo-item(ng-repeat="todo in currentFileData | filter: { display: true, done: true }")
 						single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
+		footer#end
+			div Florian Heinemann
