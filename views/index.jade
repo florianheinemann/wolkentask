@@ -61,7 +61,7 @@ block content
 										input#formAddTodo(type="text", placeholder="New Todo", ng-model="newTodo.rawData")
 									div.wt-btn-group
 										button.btn(type="submit", title="Add")
-											i.fa.fa-fw.fa-save
+											i.fa.fa-fw.fa-plus-square-o
 						li.wt-todo-item(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
 							single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
 					h3 Done

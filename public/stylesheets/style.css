@@ -341,7 +341,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #file-top-nav .wt-file-top-name {
-	margin-right: 190px;
+	margin-right: 210px;
 }
 
 #file-top-nav .wt-file-top-name h2 {
@@ -354,8 +354,18 @@ h1, h2, h3, h4, h5, h6 {
 	position: absolute;
 	right: 9px;
 	top: 0px;
-	width: 190px;
+	width: 210px;
 	text-align: right;
+}
+
+@media(max-width: 768px) {
+	#file-top-nav .wt-file-top-name {
+		margin-right: 90px;
+	}
+
+	#file-top-nav .wt-file-button-bar {
+		width: 90px;
+	}
 }
 
 #newFileInput {

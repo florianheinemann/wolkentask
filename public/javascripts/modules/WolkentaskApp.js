@@ -218,20 +218,21 @@ var wolkentask = angular.module('wolkentask', []);
 			},
 			link: function($scope, $element, $attrs) {
 				var buttonEl = $element;
+				var textEl = buttonEl.find("span");
 
 				$scope.$watch('wtStatus', function() {
 					buttonEl.removeClass("btn-warning btn-success btn-info");
 					if($scope.wtStatus == "saving") {
 						buttonEl.addClass("btn-info");
-						buttonEl.text("Saving...");
+						textEl.text("Saving...");
 						buttonEl.prop("disabled", true);
 					} else if($scope.wtStatus == "saved") {
 						buttonEl.addClass("btn-success");
-						buttonEl.text("Saved");
+						textEl.text("Saved");
 						buttonEl.prop("disabled", true);
 					} else { // unsaved
 						buttonEl.addClass("btn-warning");
-						buttonEl.text("Save");
+						textEl.text("Save");
 						buttonEl.prop("disabled", false);
 					} 
 				});
