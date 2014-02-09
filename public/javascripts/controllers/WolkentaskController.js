@@ -3,6 +3,7 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 
     var saveQueue = false;
     var saveDelayTimer = null;
+    $scope.showNavMenu = true;
     $scope.filesAndFolders = [];
     $scope.parentFolder = '';
     $scope.currentFolder = '';
@@ -24,6 +25,10 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
             $window.location.href = '/logout';
         }
     });
+
+    $scope.logout = function() {
+        $window.location.href = '/logout';
+    }
 
     $scope.initialize = function(providerId, providerToken, dropboxAppKey) {
 
@@ -79,7 +84,7 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
             $scope.currentFileName = new Path(path).basename();
             $scope.currentFileData = parseFile(success.data);
             $scope.currentFileVersion = success.fileStat.versionTag;
-console.log("Get file: " + $scope.currentFileVersion);
+            $scope.showNavMenu = false;
             $scope.saveStatus = "saved";  
             if(saveDelayTimer)
                 $timeout.cancel(saveDelayTimer);
@@ -203,13 +208,10 @@ console.log("Get file: " + $scope.currentFileVersion);
             if(dataToWrite.length > 0)
                 dataToWrite = dataToWrite.substr(0, dataToWrite.length - 1);
 
-console.log("Save file with lastRev: " + $scope.currentFileVersion);
-
             dropboxClientService.writeFile($scope.currentFilePath, dataToWrite, 
                         { lastVersionTag: $scope.currentFileVersion }).then(
                             function(fileStat) {
                                 $scope.currentFileVersion = fileStat.versionTag;
-console.log("Saved as: " + $scope.currentFileVersion);
                                 $scope.saveStatus = "saved";
                             }, function(error) {
                                 exceptionService.raiseError(error);
@@ -223,4 +225,8 @@ console.log("Saved as: " + $scope.currentFileVersion);
             return $q.reject("No data to be saved.");
         }
     };
+
+    $scope.toggleNavMenu = function() {
+        $scope.showNavMenu = !$scope.showNavMenu;
+    }
 }

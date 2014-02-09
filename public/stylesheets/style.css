@@ -270,39 +270,15 @@ h1, h2, h3, h4, h5, h6 {
 #option-buttons {
 	display: inline;
 	position: absolute;
-	right: 20px;
-	width: 50px;
+	text-align: right;
+	right: 9px;
+	top: 6px;
+	width: 100px;
 }
-
-#option-buttons li {
-	display: block;
-	width: 50px;
-	height: 50px;
-	line-height: 50px;
-	font-size: 16px;
-	float: left;
-	text-align: center;
-	border-left: solid 1px #EEEFF7;
-	box-sizing: border-box;
-}
-
-#option-buttons li:last-child {
-	border-right: solid 1px #EEEFF7;
-}
-
-#option-buttons li a {
-	color: #EEEFF7;
-	display: block;
-}
-
 
 @media(min-width:768px) {
-	#option-buttons li:hover {
-		background-color: #31353D;
-	}
-
-	#option-buttons li:hover a {
-		color: #5FC6F4;
+	#toggleButton {
+		display: none;
 	}
 }
 
@@ -313,19 +289,12 @@ h1, h2, h3, h4, h5, h6 {
 	color: #EEEFF7;
 }
 
-#file-trigger-pane {
-	position: relative;
-}
+@media(max-width: 767px) {
 
-#file-trigger-pane button {
-	position: absolute;
-	top: 0px;
-	right: 0px;
-}
-
-@media(min-width:768px) {
-	#file-trigger-pane {
-		display: none;
+	#file-pane.hideFilePane {
+		height: 0px;
+		overflow: hidden;
+		padding: 0px;
 	}
 }
 

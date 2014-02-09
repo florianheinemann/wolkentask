@@ -10,42 +10,37 @@ block content
 		
 		header#top
 			h1 wolkentask
-			ul.list-unstyled#option-buttons
-				li
-					a(href="/logout")
-						i.fa.fa-fw.fa-sign-out
-							span.sr-only Logout
+			div#option-buttons
+				button.btn(type="button", ng-click="logout()", title="Logout")
+					i.fa.fa-sign-out
+				button.btn#toggleButton(type="button", ng-click="toggleNavMenu()", title="Toggle file menu", ng-class="{hideToggleButton: !showNavMenu}")
+					i.fa.fa-bars
 
 		div.section
-			div.col.span_1_of_3#file-pane
-				div#file-trigger-pane
-					h3 Your files
-					button.btn(type="button", ng-click="changeFavorite()")
-						i.fa.fa-bars
-				div#file-data-pane
-					h3 Favorites
-					ul.list-unstyled.wt-file-list
-						li.wt-fav(ng-repeat="favorite in favorites" ng-cloak)
-							file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path)")
-						li.wt-no-fav No favorites yet
+			div.col.span_1_of_3#file-pane(ng-class="{hideFilePane: !showNavMenu}")
+				h3 Favorites
+				ul.list-unstyled.wt-file-list
+					li.wt-fav(ng-repeat="favorite in favorites" ng-cloak)
+						file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path)")
+					li.wt-no-fav No favorites yet
 
-					h3 File browser
-					ul.list-unstyled.wt-file-list
-						li
-							folder-path.wt-file-no-file(wt-path="currentFolder")
-						li(ng-hide="isInRootFolder()")
-							file-listing(wt-name="backString", wt-type="back", wt-open="requestFolderContent(parentFolder)")
-						li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : true } | orderBy:'name'")
-							file-listing(wt-name="fileOrFolder.name", wt-type="folder", wt-open="requestFolderContent(fileOrFolder.path)")
-						li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : false } | orderBy:'name'")
-							file-listing(wt-name="fileOrFolder.name", wt-type="file", wt-open="getFile(fileOrFolder.path)")
-						li
-							new-file(wt-create="createNewFile(path)", wt-path="currentFolder")
+				h3 File browser
+				ul.list-unstyled.wt-file-list
+					li
+						folder-path.wt-file-no-file(wt-path="currentFolder")
+					li(ng-hide="isInRootFolder()")
+						file-listing(wt-name="backString", wt-type="back", wt-open="requestFolderContent(parentFolder)")
+					li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : true } | orderBy:'name'")
+						file-listing(wt-name="fileOrFolder.name", wt-type="folder", wt-open="requestFolderContent(fileOrFolder.path)")
+					li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : false } | orderBy:'name'")
+						file-listing(wt-name="fileOrFolder.name", wt-type="file", wt-open="getFile(fileOrFolder.path)")
+					li
+						new-file(wt-create="createNewFile(path)", wt-path="currentFolder")
 
 			div.col.span_2_of_3#content-pane
 
 				div.wt-no-content(ng-hide="currentFileName")
-					h2 Let's get started
+					h2 Let's get started!
 					p Start by selecting a file from your favorites or your Dropbox. No Todos yet? Simply create a new Todo file!
 
 				div(ng-show="currentFileName", ng-cloak)
