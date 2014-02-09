@@ -1,3 +1,5 @@
+"use strict";
+
 var passport = require('passport');
 var DropboxOAuth2Strategy = require('passport-dropbox-oauth2').Strategy;
 var Mongoose = require('mongoose');

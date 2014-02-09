@@ -1,3 +1,5 @@
+"use strict";
+
 function Path(path) {
    this.path = path;
 }

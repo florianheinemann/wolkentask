@@ -1,3 +1,5 @@
+"use strict";
+
 exports.index = function(dropboxAppKey) {
 	return function(req, res){
 		res.render('index', { title: 'Wolkentask',
