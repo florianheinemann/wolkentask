@@ -119,8 +119,7 @@ var wolkentask = angular.module('wolkentask', []);
 					$timeout(
 						function() { 
 							inputBoxEl.focus(); 
-							// inputBoxEl.selectionStart = 0;
-							// inputBoxEl.selectionEnd = inputBoxEl.value.length;
+							inputBoxEl.select(); 
 						}
 					);
 				};

@@ -4,6 +4,10 @@
 
 /* Generic styles */
 
+html {
+	-webkit-text-size-adjust:none
+}
+
 body {
 	color: #1C1D21;
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -219,21 +223,24 @@ input, button, select, textarea {
 
 .col {
 	display: block;
-	float:left;
 	box-sizing: border-box;
+	overflow: hidden;
 }
 
 .span_2_of_3 {
-	width: 67%;
+	margin-left: 280px;
 }
 
 .span_1_of_3 {
-	width: 33%;
+	float: left;
+	width: 280px;
 }
 
 @media(max-width: 767px) {
 	.span_2_of_3 {
 		width: 100%; 
+		margin-left: 0px;
+		float: none;
 	}
 
 	.span_1_of_3 {
@@ -259,12 +266,17 @@ h1, h2, h3, h4, h5, h6 {
 	float: left;
 }
 
+#middle-section {
+	background-image: url('/images/background.png');
+}
+
 #end {
 	background: #1C1D21;
 	color: #EEEFF7;
-	height: 50px;
+	height: 40px;
 	clear: both;
-	line-height: 50px;
+	line-height: 40px;
+	padding: 5px;
 }
 
 #option-buttons {
@@ -310,7 +322,7 @@ h1, h2, h3, h4, h5, h6 {
 	padding: 0px 5px;
 }
 
-.wt-no-fav {
+.wt-no-fav, .wt-no-todo-item {
 	font-style: italic;
 	color: #A3A3A3;
 }
@@ -385,6 +397,15 @@ h1, h2, h3, h4, h5, h6 {
 		background-color: #EEEFF7;
 	}
 }
+
+.wt-no-todo-item {
+	padding-left: 5px;
+}
+
+.wt-todo-item + .wt-no-todo-item {
+	display: none;
+}
+
 .wt-todo-group {
 	min-height: 36px;
 	position: relative;

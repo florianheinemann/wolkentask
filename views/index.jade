@@ -16,12 +16,13 @@ block content
 				button.btn#toggleButton(type="button", ng-click="toggleNavMenu()", title="Toggle file menu", ng-class="{hideToggleButton: !showNavMenu}")
 					i.fa.fa-bars
 
-		div.section
+		div.section#middle-section
 			div.col.span_1_of_3#file-pane(ng-class="{hideFilePane: !showNavMenu}")
 				h3 Favorites
 				ul.list-unstyled.wt-file-list
 					li.wt-fav(ng-repeat="favorite in favorites" ng-cloak)
 						file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path)")
+						i.fa.fa-fw.fa-trash-o
 					li.wt-no-fav No favorites yet
 
 				h3 File browser
@@ -68,6 +69,6 @@ block content
 					ul.list-unstyled
 						li.wt-todo-item(ng-repeat="todo in currentFileData | filter: { display: true, done: true }")
 							single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
-		
+						li.wt-no-todo-item Let's get it done!
 		footer#end
 			div Florian Heinemann
