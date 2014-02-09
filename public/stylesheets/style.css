@@ -266,8 +266,10 @@ h1, h2, h3, h4, h5, h6 {
 	float: left;
 }
 
-#middle-section {
-	background-image: url('/images/background.png');
+@media(min-width:768px) {
+	#middle-section {
+		background-image: url('/images/background.png');
+	}
 }
 
 #end {
