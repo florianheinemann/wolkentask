@@ -1,7 +1,8 @@
+"use strict";
 function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesService, exceptionService, dropboxClientService) {
 
-    var autoSaveTimeout = null;
-    var autoSaveRunning = false;
+    var saveQueue = false;
+    var saveDelayTimer = null;
     $scope.filesAndFolders = [];
     $scope.parentFolder = '';
     $scope.currentFolder = '';
@@ -78,7 +79,11 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
             $scope.currentFileName = new Path(path).basename();
             $scope.currentFileData = parseFile(success.data);
             $scope.currentFileVersion = success.fileStat.versionTag;
+console.log("Get file: " + $scope.currentFileVersion);
             $scope.saveStatus = "saved";  
+            if(saveDelayTimer)
+                $timeout.cancel(saveDelayTimer);
+            saveQueue = false;
             deferred.resolve();         
         }, function(error) {
             exceptionService.raiseError(error);
@@ -91,7 +96,7 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
     function parseFile(dataAsString) {
 
         var parsedData = [];
-        splittedString = dataAsString.split("\n");
+        var splittedString = dataAsString.split("\n");
         splittedString.forEach(function(line) {
             var regexToFindTodo = /^\s*-*\s*\[\s*_*(x|X)?\s*\]/g;
             var regexToFindLine = /^\s*-*\s*/g;
@@ -160,18 +165,25 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
     function fileChanged() {
         $scope.saveStatus = "unsaved";
 
-        if(!autoSaveRunning) {
-            autoSaveTimeout = $timeout(function() {
-                $scope.saveFile();
-            }, 5000);
-            autoSaveRunning = true;
-            autoSaveTimeout.finally(function() {
-                autoSaveRunning = false;
+        if(!saveQueue) {
+            saveQueue = true;
+            
+            $timeout(function() {}, 5000).then(function() {
+                return $scope.saveFile();
+            }).finally(function() {
+                saveQueue = false;
             });
+        } else {
+            // No point in backlogging several timers
+            if(saveDelayTimer)
+                $timeout.cancel(saveDelayTimer);
+            saveDelayTimer = $timeout(function() { fileChanged(); }, 1000);
         }
     };
 
     $scope.saveFile = function() {
+        var deferred = $q.defer();
+
         if($scope.currentFileData && $scope.saveStatus === "unsaved") {
             $scope.saveStatus = "saving";
 
@@ -191,15 +203,24 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
             if(dataToWrite.length > 0)
                 dataToWrite = dataToWrite.substr(0, dataToWrite.length - 1);
 
+console.log("Save file with lastRev: " + $scope.currentFileVersion);
+
             dropboxClientService.writeFile($scope.currentFilePath, dataToWrite, 
                         { lastVersionTag: $scope.currentFileVersion }).then(
                             function(fileStat) {
                                 $scope.currentFileVersion = fileStat.versionTag;
+console.log("Saved as: " + $scope.currentFileVersion);
                                 $scope.saveStatus = "saved";
                             }, function(error) {
                                 exceptionService.raiseError(error);
                                 $scope.saveStatus = "unsaved";
+                            }).finally(function() {
+                                deferred.resolve();
                             });
+
+            return deferred.promise;
+        } else {
+            return $q.reject("No data to be saved.");
         }
     };
 }
