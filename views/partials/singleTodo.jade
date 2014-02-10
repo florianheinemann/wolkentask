@@ -1,5 +1,5 @@
 span
-	div.wt-todo-group.ng-show(ng-hide="displayEdit")
+	div.wt-todo-group(ng-class="{'wt-hide-todo':displayEdit}")
 		div.wt-todo-checkbox
 			input(type="checkbox", ng-model="wtDone", ng-change="update()")
 		div.wt-todo-text
@@ -10,12 +10,12 @@ span
 			button.btn(type="button", ng-click="wtDelete()", title="Delete")
 				i.fa.fa-fw.fa-trash-o
 
-	div.wt-todo-group.ng-hide(ng-show="displayEdit")
+	div.wt-todo-group(ng-class="{'wt-hide-todo':!displayEdit}")
 		form(role="form", ng-submit="save()")
 			div.wt-todo-checkbox
 				input(type="checkbox", ng-model="wtDone", ng-change="update()")
 			div.wt-todo-text
-				input(type="text", ng-model="wtData", ng-blur="cancel()")
+				input(type="text", ng-model="editData", ng-blur="cancel()")
 			div.wt-btn-group
 				button.btn(type="submit", title="Save")
 					i.fa.fa-fw.fa-save

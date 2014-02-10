@@ -386,6 +386,14 @@ h1, h2, h3, h4, h5, h6 {
 	width: 100%;
 }
 
+.wt-hide-todo {
+	position: absolute!important;
+	top: -1000px!important;
+	left: -1000px!important;
+	width: 0px!important;
+	overflow: hidden!important;
+}
+
 .wt-todo-item {
 	border-bottom: solid 1px #EEEFF7;
 }

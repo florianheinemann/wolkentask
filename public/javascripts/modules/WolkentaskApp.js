@@ -105,27 +105,24 @@ var wolkentask = angular.module('wolkentask', []);
 			},
 			link: function($scope, $element) {
 
+				var originalText = "";
 				var inputBoxEl = $element.find("input")[2];
 
 				$scope.cancel = function() {
-					$scope.wtData = $scope.originalText;
-					$scope.displayEdit = false;
-				};
+					$timeout(function() {
+						$scope.displayEdit = false;
+					})
+				}
 
 				$scope.showEdit = function() {
-					$scope.originalText = $scope.wtData;
+					originalText = $scope.editData = $scope.wtData;
 					$scope.displayEdit = true;
-
-					$timeout(
-						function() { 
-							inputBoxEl.focus(); 
-						}
-					);
+					inputBoxEl.focus(); 
 				};
 
 				$scope.save = function() {
 					$scope.displayEdit = false;
-					$scope.originalText = $scope.wtData;
+					$scope.wtData = $scope.editData;
 					$scope.wtSave();
 				};
 
