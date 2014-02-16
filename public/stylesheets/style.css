@@ -512,12 +512,6 @@ h1, h2, h3, h4, h5, h6 {
 	margin-right: 5px;
 }
 
-@media(min-width:768px) {
-	.wt-btn-group button:hover {
-		background-color: #5FC6F4;
-	}
-}
-
 .wt-btn-group button:last-child {
 	margin-right: 0px;
 }

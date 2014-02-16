@@ -216,15 +216,15 @@ var wolkentask = angular.module('wolkentask', []);
 					buttonEl.removeClass("btn-warning btn-success btn-info");
 					if($scope.wtStatus == "saving") {
 						buttonEl.addClass("btn-info");
-						textEl.text("Saving...");
+						textEl.innerText = "Saving...";
 						buttonEl.prop("disabled", true);
 					} else if($scope.wtStatus == "saved") {
 						buttonEl.addClass("btn-success");
-						textEl.text("Saved");
+						textEl.innerText = "Saved";
 						buttonEl.prop("disabled", true);
 					} else { // unsaved
 						buttonEl.addClass("btn-warning");
-						textEl.text("Save");
+						textEl.innerText = "Save";
 						buttonEl.prop("disabled", false);
 					} 
 				});
