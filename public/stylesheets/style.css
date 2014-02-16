@@ -266,6 +266,11 @@ h1, h2, h3, h4, h5, h6 {
 	float: left;
 }
 
+#top h1 a {
+	text-decoration: none;
+	color: #EEEFF7;
+}
+
 @media(min-width:768px) {
 	#middle-section {
 		background-image: url('/images/background.png');

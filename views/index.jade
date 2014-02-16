@@ -9,7 +9,8 @@ block content
 	div(ng-controller="WolkentaskController", ng-init="initialize('#{providerId}', '#{providerToken}', '#{dropboxAppKey}')")
 		
 		header#top
-			h1 wolkentask
+			h1 
+				a(href="/") wolkentask
 			div#option-buttons
 				button.btn(type="button", ng-click="logout()", title="Logout")
 					i.fa.fa-sign-out
@@ -59,9 +60,6 @@ block content
 									div.wt-todo-text
 										label.sr-only(for="formAddTodo") New Todo
 										input#formAddTodo(type="text", placeholder="New Todo", ng-model="newTodo.rawData")
-									div.wt-btn-group
-										button.btn(type="submit", title="Add")
-											i.fa.fa-fw.fa-plus-square-o
 						li.wt-todo-item(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
 							single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
 					h3 Done

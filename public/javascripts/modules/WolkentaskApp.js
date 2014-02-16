@@ -105,17 +105,14 @@ var wolkentask = angular.module('wolkentask', []);
 			},
 			link: function($scope, $element) {
 
-				var originalText = "";
-				var inputBoxEl = $element.find("input")[2];
+				var inputBoxEl = $element.find("input")[1];
 
 				$scope.cancel = function() {
-					$timeout(function() {
-						$scope.displayEdit = false;
-					})
+					$scope.displayEdit = false;
 				}
 
 				$scope.showEdit = function() {
-					originalText = $scope.editData = $scope.wtData;
+					$scope.editData = $scope.wtData;
 					$scope.displayEdit = true;
 					inputBoxEl.focus(); 
 				};
