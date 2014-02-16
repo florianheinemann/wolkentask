@@ -210,7 +210,7 @@ var wolkentask = angular.module('wolkentask', []);
 			},
 			link: function($scope, $element, $attrs) {
 				var buttonEl = $element;
-				var textEl = buttonEl.find("span");
+				var textEl = buttonEl.find("span")[1];
 
 				$scope.$watch('wtStatus', function() {
 					buttonEl.removeClass("btn-warning btn-success btn-info");
