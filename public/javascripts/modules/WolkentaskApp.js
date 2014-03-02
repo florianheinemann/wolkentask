@@ -93,7 +93,7 @@ var wolkentask = angular.module('wolkentask', []);
 		};
 	}]);
 
-	wolkentask.directive("singleTodo", function($timeout) {
+	wolkentask.directive("singleTodo", function() {
 		return {
 			restrict: "E",
 			scope: {
@@ -234,8 +234,9 @@ var wolkentask = angular.module('wolkentask', []);
 		};
 	});
 
-	wolkentask.service('dropboxClientService', ['$q', function(q) {
+	wolkentask.service('dropboxClientService', ['$q', '$timeout', function(q, timeout) {
 		var dropboxClient = null;
+		var cancelLongPoll = false;
 
 		this.initialize = function(providerId, providerToken, dropboxAppKey) {
 			dropboxClient = new Dropbox.Client({ key: dropboxAppKey,
@@ -265,6 +266,21 @@ var wolkentask = angular.module('wolkentask', []);
 	        return deferred.promise;
 		};
 
+		this.fileMetaData = function(path) {
+	        var deferred = q.defer();
+
+	        dropboxClient.stat(path, null, 
+                function(error, fileStat) {
+                    if(!error) {	
+                        deferred.resolve(fileStat);
+                    } else {
+                        deferred.reject(error);
+                    }
+                });
+
+	        return deferred.promise;			
+		}
+
 		this.writeFile = function(path, data, options) {
 	        var deferred = q.defer();
 
@@ -293,6 +309,72 @@ var wolkentask = angular.module('wolkentask', []);
 					deferred.reject(error);
 				}
 			});
+
+			return deferred.promise;
+		};
+
+		this.cancelTrackChanges = function() {
+			cancelLongPoll = true;
+		}
+
+		this.trackChanges = function() {
+			var deferred = q.defer();
+			var cursor = null;
+			var firstRequest = true;
+
+			cancelLongPoll = false; 
+
+			var long_poll = function() {
+				dropboxClient.pollForChanges(cursor, null, function(poll_error, changes) {
+					if(!poll_error) {
+						if(changes && changes.hasChanges) {
+
+							var shouldPullAgain = false;
+							do {
+								dropboxClient.pullChanges(cursor, function(error, pulledChanges) {
+									if(!error) {
+										cursor = pulledChanges;
+
+										if(firstRequest) {
+											firstRequest = false;
+										} else {
+											deferred.notify(cursor);
+										}
+
+										shouldPullAgain = cursor.shouldPullAgain;
+
+										if(cancelLongPoll)
+											return deferred.reject();
+
+										if(!shouldPullAgain) {
+											timeout(function() { long_poll(); }, changes.retryAfter);
+										}
+									} else {
+										timeout(function() { long_poll(); }, 10 * 1000);
+									}
+								});
+							} while(shouldPullAgain);
+
+						} else {
+							if(cancelLongPoll)
+								return deferred.reject();
+							timeout(function() { long_poll(); }, changes.retryAfter);
+						}
+					} else {
+						timeout(function() { long_poll(); }, 10 * 1000);
+					}
+				});				
+			};	
+
+			// Baseline cursor
+			dropboxClient.pullChanges(null, function(error, pulledChanges) {
+				if(!error) {
+					cursor = pulledChanges;
+					return long_poll();
+				} else {
+					return deferred.reject();
+				}
+			});	
 
 			return deferred.promise;
 		};

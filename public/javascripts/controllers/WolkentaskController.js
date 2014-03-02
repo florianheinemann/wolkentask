@@ -33,6 +33,22 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
     $scope.initialize = function(providerId, providerToken, dropboxAppKey) {
 
         dropboxClientService.initialize(providerId, providerToken, dropboxAppKey);
+
+        dropboxClientService.trackChanges().then(function() {}, function() {}, 
+            function() {
+                $scope.requestFolderContent($scope.currentFolder);
+
+                if($scope.currentFileName) {
+                    dropboxClientService.fileMetaData($scope.currentFilePath).then(function(fileStat) {
+                        if($scope.currentFileVersion !== fileStat.versionTag) {
+                            if($scope.saveStatus === "saved") {
+                                $scope.getFile($scope.currentFilePath);
+                            }
+                        }
+                    });
+                }
+            });
+
         $scope.requestFolderContent('');
 
         favoritesService.receiveFavorites(true).then(function(data) {
