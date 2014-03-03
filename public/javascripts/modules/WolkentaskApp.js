@@ -320,40 +320,48 @@ var wolkentask = angular.module('wolkentask', []);
 		this.trackChanges = function() {
 			var deferred = q.defer();
 			var cursor = null;
-			var firstRequest = true;
 
 			cancelLongPoll = false; 
+
+			// Pulls all changes as long as Dropbox signals that more changes are to come
+			var pullAllChanges = function(deferred, cursor) {
+				dropboxClient.pullChanges(cursor, function(error, pulledChanges) {
+					if(!error) {
+						if(pulledChanges.shouldPullAgain) {
+							deferred.notify(pulledChanges);
+							pullAllChanges(deferred, pulledChanges);
+						} else {
+							deferred.resolve(pulledChanges);
+						}
+					} else {
+						deferred.reject(error);
+					}
+				});
+
+				return deferred.promise;
+			};
 
 			var long_poll = function() {
 				dropboxClient.pollForChanges(cursor, null, function(poll_error, changes) {
 					if(!poll_error) {
 						if(changes && changes.hasChanges) {
 
-							var shouldPullAgain = false;
-							do {
-								dropboxClient.pullChanges(cursor, function(error, pulledChanges) {
-									if(!error) {
-										cursor = pulledChanges;
-
-										if(firstRequest) {
-											firstRequest = false;
-										} else {
-											deferred.notify(cursor);
-										}
-
-										shouldPullAgain = cursor.shouldPullAgain;
-
-										if(cancelLongPoll)
-											return deferred.reject();
-
-										if(!shouldPullAgain) {
-											timeout(function() { long_poll(); }, changes.retryAfter);
-										}
-									} else {
-										timeout(function() { long_poll(); }, 10 * 1000);
-									}
+							pullAllChanges(q.defer(), cursor).then(
+								function(success) {
+									deferred.notify(success);
+									cursor = success;
+									if(cancelLongPoll)
+										return deferred.reject();
+									timeout(function() { long_poll(); }, changes.retryAfter);
+								},
+								function(error) {
+									if(cancelLongPoll)
+										return deferred.reject();
+									timeout(function() { long_poll(); }, 10 * 1000);
+								},
+								function(notify) {
+									deferred.notify(notify);
 								});
-							} while(shouldPullAgain);
 
 						} else {
 							if(cancelLongPoll)
@@ -361,20 +369,22 @@ var wolkentask = angular.module('wolkentask', []);
 							timeout(function() { long_poll(); }, changes.retryAfter);
 						}
 					} else {
+						if(cancelLongPoll)
+							return deferred.reject();
 						timeout(function() { long_poll(); }, 10 * 1000);
 					}
 				});				
 			};	
 
 			// Baseline cursor
-			dropboxClient.pullChanges(null, function(error, pulledChanges) {
-				if(!error) {
-					cursor = pulledChanges;
+			pullAllChanges(q.defer(), null).then(
+				function(success) {
+					cursor = success;
 					return long_poll();
-				} else {
+				},
+				function(error) {
 					return deferred.reject();
-				}
-			});	
+				});
 
 			return deferred.promise;
 		};
