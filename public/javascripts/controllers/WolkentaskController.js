@@ -35,8 +35,14 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
         dropboxClientService.initialize(providerId, providerToken, dropboxAppKey);
 
         dropboxClientService.trackChanges().then(function() {}, function() {}, 
-            function() {
-                $scope.requestFolderContent($scope.currentFolder);
+            function(changedFiles) {
+
+                // Avoid refresh of file list if the only change is an update of the currently opened file
+                if(changedFiles.changes.length !== 1 ||
+                    changedFiles.changes[0].path.toLowerCase() !== $scope.currentFilePath.toLowerCase() || 
+                    changedFiles.changes[0].wasRemoved) {
+                        $scope.requestFolderContent($scope.currentFolder);
+                }
 
                 if($scope.currentFileName) {
                     dropboxClientService.fileMetaData($scope.currentFilePath).then(function(fileStat) {
