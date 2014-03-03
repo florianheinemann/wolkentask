@@ -53,6 +53,7 @@ block content
 							sync-button(wt-status="saveStatus", wt-save="saveFile()")
 
 					h3 Todo
+					a(href="", ng-click="markAllTodosAs(true)") Mark all as "Done"
 					ul.list-unstyled
 						li.wt-todo-item
 							div.wt-todo-group
@@ -63,6 +64,7 @@ block content
 						li.wt-todo-item(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
 							single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
 					h3 Done
+					a(href="", ng-click="markAllTodosAs(false)") Mark all as "Todo"
 					ul.list-unstyled
 						li.wt-todo-item(ng-repeat="todo in currentFileData | filter: { display: true, done: true }")
 							single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")

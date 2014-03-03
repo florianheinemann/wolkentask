@@ -171,6 +171,23 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
         }
     };
 
+    $scope.markAllTodosAs = function(ticked) {
+        if(!$scope.currentFileData)
+            return;
+
+        var anyChange = false;
+        $scope.currentFileData.forEach(function(todo) {
+            if(todo.done !== ticked) {
+                todo.changed = true;
+                todo.done = ticked;
+                anyChange = true;
+            }
+        });
+
+        if(anyChange)
+            fileChanged();
+    };
+
     $scope.updateTodo = function(todo) {
         if($scope.currentFileData) {
             todo.changed = true;
