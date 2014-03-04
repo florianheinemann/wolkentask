@@ -102,7 +102,7 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 		return deferred.promise;
 	};
 
-	$scope.getFile = function(path) {        
+	$scope.getFile = function(path, isFavorite) {        
 		var deferred = $q.defer();
 
 		dropboxClientService.readFile(path).then(function(success) {
@@ -117,8 +117,12 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 			saveQueue = false;
 			deferred.resolve();         
 		}, function(error) {
-			exceptionService.raiseError(error);
 			deferred.reject();
+			if(isFavorite && confirm("This file can't be retrieved. Would you like to remove this favorite from your list?")) {
+					favoritesService.removeFavorite(path);
+					return;
+			}
+			exceptionService.raiseError(error);
 		});
 
 		return deferred.promise;

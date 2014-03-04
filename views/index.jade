@@ -22,7 +22,7 @@ block content
 				h3 Favorites
 				ul.list-unstyled.wt-file-list
 					li.wt-fav(ng-repeat="favorite in favorites" ng-cloak)
-						file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path)")
+						file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path, true)")
 					li.wt-no-fav No favorites yet
 
 				h3 File browser
