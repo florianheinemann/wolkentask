@@ -34,7 +34,10 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 
         dropboxClientService.initialize(providerId, providerToken, dropboxAppKey);
 
-        dropboxClientService.trackChanges().then(function() {}, function() {}, 
+        dropboxClientService.trackChanges().then(function() {}, 
+            function(error) {
+                exceptionService.raiseError(error);
+            }, 
             function(changedFiles) {
 
                 // Avoid refresh of file list if the only change is an update of the currently opened file
@@ -44,6 +47,7 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
                         $scope.requestFolderContent($scope.currentFolder);
                 }
 
+                // Refresh currently shown file to latest version if not edited
                 if($scope.currentFileName) {
                     dropboxClientService.fileMetaData($scope.currentFilePath).then(function(fileStat) {
                         if($scope.currentFileVersion !== fileStat.versionTag) {
