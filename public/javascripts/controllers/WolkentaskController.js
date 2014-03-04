@@ -22,7 +22,7 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 		alert(message);
 
 		if(errorAction === 2) {
-			$window.location.href = '/logout';
+			$scope.logout();
 		}
 	});
 
@@ -255,8 +255,7 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 			if(dataToWrite.length > 0)
 				dataToWrite = dataToWrite.substr(0, dataToWrite.length - 1);
 
-			dropboxClientService.writeFile($scope.currentFilePath, dataToWrite, 
-						{ lastVersionTag: $scope.currentFileVersion }).then(
+			dropboxClientService.writeFile($scope.currentFilePath, dataToWrite).then(
 							function(fileStat) {
 								$scope.currentFileVersion = fileStat.versionTag;
 								$scope.saveStatus = "saved";
