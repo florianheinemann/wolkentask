@@ -2,11 +2,11 @@ span
 	div.wt-todo-group
 		div.wt-todo-checkbox
 			input(type="checkbox", ng-model="wtDone", ng-change="update()")
-		div.wt-todo-text(ng-class="{'wt-hide-todo':displayEdit}")
-			p(ng-click="showEdit()") {{wtData}}
-		div.wt-todo-text(ng-class="{'wt-hide-todo':!displayEdit}")
+		div.wt-todo-text
+			p {{wtData}}
+		div.wt-todo-text.wt-todo-input
 			form(role="form", ng-submit="save()")
-				input(type="text", ng-model="editData", ng-blur="cancel()")
+				input(type="text", ng-model="editData",ng-click="showEdit()", ng-blur="cancel()")
 		div.wt-btn-group
 			button.btn(type="button", ng-click="cancel()", title="Cancel", ng-class="{'wt-hide-todo':!displayEdit}")
 				i.fa.fa-fw.fa-undo
