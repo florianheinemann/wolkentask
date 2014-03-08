@@ -27,6 +27,7 @@ app.use(express.methodOverride());
 
 app.use(express.cookieParser());
 app.use(express.session({	secret: config.http.cookie_secret,
+							cookie: {maxAge: 60*60*24*365*10},
 						    store: new MongoStore( { db: config.mongodb.database,
 						    						host: config.mongodb.host,
 						    						port: config.mongodb.port,
