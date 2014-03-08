@@ -3,6 +3,8 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 
 	var saveQueue = false;
 	var saveDelayTimer = null;
+	$scope.staticMarkAllCheckboxT = true;
+	$scope.staticMarkAllCheckboxF = false;
 	$scope.showNavMenu = true;
 	$scope.filesAndFolders = [];
 	$scope.parentFolder = '';
@@ -194,6 +196,9 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 
 		if(anyChange)
 			fileChanged();
+
+		$scope.staticMarkAllCheckboxT = true;
+		$scope.staticMarkAllCheckboxF = false;
 	};
 
 	$scope.updateTodo = function(todo) {

@@ -6,7 +6,7 @@ block head
 
 block content
 
-	div(ng-controller="WolkentaskController", ng-init="initialize('#{providerId}', '#{providerToken}', '#{dropboxAppKey}')")
+	div#wrapper(ng-controller="WolkentaskController", ng-init="initialize('#{providerId}', '#{providerToken}', '#{dropboxAppKey}')")
 		
 		header#top
 			h1 
@@ -21,7 +21,7 @@ block content
 			div.col.span_1_of_3#file-pane(ng-class="{hideFilePane: !showNavMenu}")
 				h3 Favorites
 				ul.list-unstyled.wt-file-list
-					li.wt-fav(ng-repeat="favorite in favorites" ng-cloak)
+					li.wt-fav(ng-repeat="favorite in favorites", ng-cloak)
 						file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path, true)")
 					li.wt-no-fav No favorites yet
 
@@ -41,20 +41,24 @@ block content
 			div.col.span_2_of_3#content-pane
 
 				div.wt-no-content(ng-hide="currentFileName")
-					h2 Let's get started!
+					h3 Let's get started!
 					p Start by selecting a file from your favorites or your Dropbox. No Todos yet? Simply create a new Todo file!
 
 				div(ng-show="currentFileName", ng-cloak)
 					div#file-top-nav
 						div.wt-file-top-name
-							h2 {{currentFileName}}
+							h3 {{currentFileName}}
 						div.wt-file-button-bar
 							favorite-star(wt-path="currentFilePath")
 							sync-button(wt-status="saveStatus", wt-save="saveFile()")
 
-					h3 Todo
-					a(href="", ng-click="markAllTodosAs(true)") Mark all as "Done"
 					ul.list-unstyled
+						li.wt-todo-item
+							div.wt-todo-group
+								div.wt-todo-checkbox
+									input(type="checkbox", ng-model="staticMarkAllCheckboxF", ng-change="markAllTodosAs(true)")
+								div.wt-todo-text
+									p.wt-todo-header Todo
 						li.wt-todo-item
 							div.wt-todo-group
 								form(role="form", ng-submit="addNewTodo()")
@@ -63,11 +67,19 @@ block content
 										input#formAddTodo(type="text", placeholder="New Todo", ng-model="newTodo.rawData")
 						li.wt-todo-item(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
 							single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
-					h3 Done
-					a(href="", ng-click="markAllTodosAs(false)") Mark all as "Todo"
+
 					ul.list-unstyled
+						li.wt-todo-item
+							div.wt-todo-group
+								div.wt-todo-checkbox
+									input(type="checkbox", ng-model="staticMarkAllCheckboxT", ng-change="markAllTodosAs(false)")
+								div.wt-todo-text
+									p.wt-todo-header Done
 						li.wt-todo-item(ng-repeat="todo in currentFileData | filter: { display: true, done: true }")
 							single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
-						li.wt-no-todo-item Let's get it done!
+						li.wt-no-todo-item
+							div.wt-todo-group
+								div.wt-todo-text
+									p Let's get it done!
 		footer#end
 			div Florian Heinemann
