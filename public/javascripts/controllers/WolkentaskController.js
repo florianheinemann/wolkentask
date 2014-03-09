@@ -1,7 +1,6 @@
 "use strict";
 function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesService, exceptionService, dropboxClientService) {
 
-	var saveQueue = false;
 	var saveDelayTimer = null;
 	var lastSaveTime = 0;
 	var lastEditTime = 0;
@@ -110,6 +109,13 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 	$scope.getFile = function(path, isFavorite) {        
 		var deferred = $q.defer();
 
+		if($scope.saveStatus !== dropboxClientService.SaveStatusEnum.saved) {
+			if(!confirm("There are still some unsaved changes. Are you sure you would like to load a different file and lose those changes?")) {
+				deferred.reject("Unsaved changes detected");
+				return deferred.promise;
+			}
+		}
+
 		dropboxClientService.readFile(path).then(function(success) {
 			$scope.currentFilePath = path;
 			$scope.currentFileName = new Path(path).basename();
@@ -118,12 +124,12 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 			$scope.showNavMenu = false;
 
 			$scope.saveStatus = dropboxClientService.SaveStatusEnum.saved;
-			lastSaveTime = 0;
+			lastSaveTime = Date.now();
+			lastEditTime = 0;
 			if(saveDelayTimer) {
 				$timeout.cancel(saveDelayTimer);
 				saveDelayTimer = null;
 			}
-			saveQueue = false;
 
 			deferred.resolve();         
 		}, function(error) {
