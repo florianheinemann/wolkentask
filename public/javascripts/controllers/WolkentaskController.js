@@ -3,6 +3,10 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 
 	var saveQueue = false;
 	var saveDelayTimer = null;
+	var lastSaveTime = 0;
+	var lastEditTime = 0;
+	$scope.saveStatus = dropboxClientService.SaveStatusEnum.saved;
+
 	$scope.staticMarkAllCheckboxT = true;
 	$scope.staticMarkAllCheckboxF = false;
 	$scope.showNavMenu = true;
@@ -18,7 +22,6 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 	$scope.newTodo = {
 		rawData: ""
 	};
-	$scope.saveStatus = "saved";
 
 	$scope.$on('error', function(name, errorType, errorAction, message) {
 		alert(message);
@@ -53,7 +56,7 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 				if($scope.currentFileName) {
 					dropboxClientService.fileMetaData($scope.currentFilePath).then(function(fileStat) {
 						if($scope.currentFileVersion !== fileStat.versionTag) {
-							if($scope.saveStatus === "saved") {
+							if($scope.saveStatus === dropboxClientService.SaveStatusEnum.saved) {
 								$scope.getFile($scope.currentFilePath);
 							}
 						}
@@ -113,10 +116,15 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 			$scope.currentFileData = parseFile(success.data);
 			$scope.currentFileVersion = success.fileStat.versionTag;
 			$scope.showNavMenu = false;
-			$scope.saveStatus = "saved";  
-			if(saveDelayTimer)
+
+			$scope.saveStatus = dropboxClientService.SaveStatusEnum.saved;
+			lastSaveTime = 0;
+			if(saveDelayTimer) {
 				$timeout.cancel(saveDelayTimer);
+				saveDelayTimer = null;
+			}
 			saveQueue = false;
+
 			deferred.resolve();         
 		}, function(error) {
 			deferred.reject();
@@ -219,34 +227,57 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 		}
 	};
 
-	function fileChanged() {
-		$scope.saveStatus = "unsaved";
-		queueSave();
+	function updateSaveStatus(ignoreSavingStatus) {
+		ignoreSavingStatus = ignoreSavingStatus || false;
+		if(!$scope.currentFileData) {
+			$scope.saveStatus = dropboxClientService.SaveStatusEnum.saved;
+		} else if(ignoreSavingStatus || $scope.saveStatus !== dropboxClientService.SaveStatusEnum.saving) {
+			if(lastEditTime >= lastSaveTime)
+				$scope.saveStatus = dropboxClientService.SaveStatusEnum.unsaved;
+			else
+				$scope.saveStatus = dropboxClientService.SaveStatusEnum.saved;
+		}
 	};
 
-	function queueSave() {
-		if(!saveQueue) {
-			saveQueue = true;
-			$timeout(function() {}, 5000).then(function() {
-				$scope.saveFile().finally(function() {
-					saveQueue = false;
-				});
-			});
-		} else {
-			// No point in backlogging several timers
-			if(saveDelayTimer) {
-				$timeout.cancel(saveDelayTimer);
-			}
+	function fileChanged() {
+		lastEditTime = Date.now();
+		updateSaveStatus();
+		triggerSaveQueue();
+	};
 
-			saveDelayTimer = $timeout(function() { queueSave(); }, 1000);
-		}		
+	function triggerSaveQueue() {
+
+		if(saveDelayTimer) {
+			$timeout.cancel(saveDelayTimer);
+			saveDelayTimer = null;
+		}
+
+		saveDelayTimer = $timeout(function() {
+			updateSaveStatus();
+
+			switch($scope.saveStatus) {
+				case dropboxClientService.SaveStatusEnum.unsaved:
+					$scope.saveFile();
+					triggerSaveQueue();
+					break;
+
+				case dropboxClientService.SaveStatusEnum.saving:
+					triggerSaveQueue();
+					break;
+
+				case dropboxClientService.SaveStatusEnum.saved:
+					$timeout.cancel(saveDelayTimer);
+					saveDelayTimer = null;
+					break;
+			}
+		}, 5000);	
 	}
 
 	$scope.saveFile = function() {
 		var deferred = $q.defer();
 
-		if($scope.currentFileData && $scope.saveStatus === "unsaved") {
-			$scope.saveStatus = "saving";
+		if($scope.currentFileData && $scope.saveStatus !== dropboxClientService.SaveStatusEnum.saved) {
+			$scope.saveStatus = dropboxClientService.SaveStatusEnum.saving;
 
 			var dataToWrite = "";
 			$scope.currentFileData.forEach(function(line) {
@@ -264,19 +295,22 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 			if(dataToWrite.length > 0)
 				dataToWrite = dataToWrite.substr(0, dataToWrite.length - 1);
 
+			var newSaveTime = Date.now();
+
 			dropboxClientService.writeFile($scope.currentFilePath, dataToWrite).then(
 							function(fileStat) {
 								$scope.currentFileVersion = fileStat.versionTag;
-								$scope.saveStatus = "saved";
+								lastSaveTime = newSaveTime;
+								updateSaveStatus(true);
+								deferred.resolve();
 							}, function(error) {
 								exceptionService.raiseError(error);
-								$scope.saveStatus = "unsaved";
-							}).finally(function() {
-								deferred.resolve();
+								updateSaveStatus(true);
+								deferred.reject();
 							});
 
 		} else {
-			deferred.reject("No data to be saved.");
+			deferred.resolve();
 		}
 		
 		return deferred.promise;
