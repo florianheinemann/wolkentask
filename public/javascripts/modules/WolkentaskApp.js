@@ -201,7 +201,7 @@ var wolkentask = angular.module('wolkentask', []);
 		};
 	});
 
-	wolkentask.directive("syncButton", function() {
+	wolkentask.directive("syncButton", function(dropboxClientService) {
 		return {
 			restrict: "E",
 			scope: {
@@ -214,11 +214,11 @@ var wolkentask = angular.module('wolkentask', []);
 
 				$scope.$watch('wtStatus', function() {
 					buttonEl.removeClass("btn-warning btn-success btn-info");
-					if($scope.wtStatus == "saving") {
+					if($scope.wtStatus === dropboxClientService.SaveStatusEnum.saving) {
 						buttonEl.addClass("btn-info");
 						textEl.innerText = "Saving...";
 						buttonEl.prop("disabled", true);
-					} else if($scope.wtStatus == "saved") {
+					} else if($scope.wtStatus === dropboxClientService.SaveStatusEnum.saved) {
 						buttonEl.addClass("btn-success");
 						textEl.innerText = "Saved";
 						buttonEl.prop("disabled", true);
@@ -237,6 +237,8 @@ var wolkentask = angular.module('wolkentask', []);
 	wolkentask.service('dropboxClientService', ['$q', '$timeout', function(q, timeout) {
 		var dropboxClient = null;
 		var cancelLongPoll = false;
+
+		this.SaveStatusEnum = Object.freeze ({ saved: "saved", unsaved: "unsaved", saving: "saving" });
 
 		this.initialize = function(providerId, providerToken, dropboxAppKey) {
 			dropboxClient = new Dropbox.Client({ key: dropboxAppKey,
