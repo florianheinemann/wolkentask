@@ -93,7 +93,7 @@ var wolkentask = angular.module('wolkentask', []);
 		};
 	}]);
 
-	wolkentask.directive("singleTodo", function() {
+	wolkentask.directive("singleTodo", function($timeout) {
 		return {
 			restrict: "E",
 			scope: {
@@ -107,29 +107,45 @@ var wolkentask = angular.module('wolkentask', []);
 
 				var inputBoxEl = $element.find("input")[1];
 				var oldText = "";
+				var saved = false;
+
+				$element.on('mouseup', function(e){
+                    e.preventDefault();
+console.log("mouseup");
+                });
 
 				$scope.cancel = function() {
-					$scope.displayEdit = false;
-					$scope.wtData = oldText;
-					$scope.editData = "";
+console.log("cancel");
+					if(!saved) {
+console.log("cancel reversed");
+						$scope.wtData = oldText;
+						$scope.editData = "";
+					}
 				}
 
 				$scope.showEdit = function() {
 					$scope.editData = oldText = $scope.wtData;
 					$scope.wtData = "";
-					$scope.displayEdit = true;
-					//inputBoxEl.focus(); 
+					saved = false;
+					$timeout(function() {inputBoxEl.select()});
+					//inputBoxEl.select(); 
+console.log("show edit");
+				};
+
+				$scope.mouseUp = function(e) {
+					return false;
 				};
 
 				$scope.save = function() {
-					$scope.displayEdit = false;
+console.log("save");
+					saved = true;
 					$scope.wtData = $scope.editData;
 					$scope.editData = "";
 					$scope.wtSave();
+console.log("save end");
 				};
 
 				$scope.update = function() {
-					$scope.displayEdit = false;
 					$scope.wtUpdate();
 				}
 			},
