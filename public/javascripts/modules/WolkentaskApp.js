@@ -111,13 +111,10 @@ var wolkentask = angular.module('wolkentask', []);
 
 				$element.on('mouseup', function(e){
                     e.preventDefault();
-console.log("mouseup");
                 });
 
 				$scope.cancel = function() {
-console.log("cancel");
 					if(!saved) {
-console.log("cancel reversed");
 						$scope.wtData = oldText;
 						$scope.editData = "";
 					}
@@ -127,9 +124,10 @@ console.log("cancel reversed");
 					$scope.editData = oldText = $scope.wtData;
 					$scope.wtData = "";
 					saved = false;
-					$timeout(function() {inputBoxEl.select()});
-					//inputBoxEl.select(); 
-console.log("show edit");
+					$timeout(function() {
+						inputBoxEl.selectionStart = 0;
+						inputBoxEl.selectionEnd = inputBoxEl.value.length;
+					});
 				};
 
 				$scope.mouseUp = function(e) {
@@ -137,12 +135,10 @@ console.log("show edit");
 				};
 
 				$scope.save = function() {
-console.log("save");
 					saved = true;
 					$scope.wtData = $scope.editData;
 					$scope.editData = "";
 					$scope.wtSave();
-console.log("save end");
 				};
 
 				$scope.update = function() {
