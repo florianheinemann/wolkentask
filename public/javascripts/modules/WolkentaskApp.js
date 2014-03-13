@@ -93,7 +93,7 @@ var wolkentask = angular.module('wolkentask', []);
 		};
 	}]);
 
-	wolkentask.directive("singleTodo", function() {
+	wolkentask.directive("singleTodo", function($timeout) {
 		return {
 			restrict: "E",
 			scope: {
@@ -106,25 +106,42 @@ var wolkentask = angular.module('wolkentask', []);
 			link: function($scope, $element) {
 
 				var inputBoxEl = $element.find("input")[1];
+				var oldText = "";
+				var saved = false;
+
+				$element.on('mouseup', function(e){
+                    e.preventDefault();
+                });
 
 				$scope.cancel = function() {
-					$scope.displayEdit = false;
+					if(!saved) {
+						$scope.wtData = oldText;
+						$scope.editData = "";
+					}
 				}
 
 				$scope.showEdit = function() {
-					$scope.editData = $scope.wtData;
-					$scope.displayEdit = true;
-					inputBoxEl.focus(); 
+					$scope.editData = oldText = $scope.wtData;
+					$scope.wtData = "";
+					saved = false;
+					$timeout(function() {
+						inputBoxEl.selectionStart = 0;
+						inputBoxEl.selectionEnd = inputBoxEl.value.length;
+					});
+				};
+
+				$scope.mouseUp = function(e) {
+					return false;
 				};
 
 				$scope.save = function() {
-					$scope.displayEdit = false;
+					saved = true;
 					$scope.wtData = $scope.editData;
+					$scope.editData = "";
 					$scope.wtSave();
 				};
 
 				$scope.update = function() {
-					$scope.displayEdit = false;
 					$scope.wtUpdate();
 				}
 			},

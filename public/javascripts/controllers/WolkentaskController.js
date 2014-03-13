@@ -71,7 +71,7 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 	};
 
 	$scope.isInRootFolder = function() {
-		return (!$scope.currentFolder || $scope.currentFolder == "" || $scope.currentFolder == "." || $scope.currentFolder == "/");
+		return (!$scope.currentFolder || $scope.currentFolder === "" || $scope.currentFolder === "." || $scope.currentFolder === "/");
 	}
 
 	$scope.requestFolderContent = function(path) {

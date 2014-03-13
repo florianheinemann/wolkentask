@@ -1,16 +1,11 @@
-span
-	div.wt-todo-group
-		div.wt-todo-checkbox
-			input(type="checkbox", ng-model="wtDone", ng-change="update()")
-		div.wt-todo-text(ng-class="{'wt-hide-todo':displayEdit}")
-			p(ng-click="showEdit()") {{wtData}}
-		div.wt-todo-text(ng-class="{'wt-hide-todo':!displayEdit}")
-			form(role="form", ng-submit="save()")
-				input(type="text", ng-model="editData", ng-blur="cancel()")
-		div.wt-btn-group
-			button.btn(type="button", ng-click="cancel()", title="Cancel", ng-class="{'wt-hide-todo':!displayEdit}")
-				i.fa.fa-fw.fa-undo
-			button.btn(type="button", ng-click="showEdit()", title="Edit", ng-class="{'wt-hide-todo':displayEdit}")
-				i.fa.fa-fw.fa-pencil
-			button.btn(type="button", ng-click="wtDelete()", title="Delete")
-				i.fa.fa-fw.fa-trash-o
+div.wt-todo-group
+	div.wt-todo-checkbox
+		input(type="checkbox", ng-model="wtDone", ng-change="update()")
+	div.wt-todo-text
+		p {{wtData}}
+	div.wt-todo-input
+		form(role="form", ng-submit="save()")
+			input(type="text", ng-model="editData", ng-focus="showEdit()", ng-blur="cancel()", ng-mouseup="mouseUp()")
+	div.wt-btn-group
+		button.btn(type="button", ng-click="wtDelete()", title="Delete")
+			i.fa.fa-times-circle
