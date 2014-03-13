@@ -11,7 +11,7 @@ block content
 		header#top
 			h1 
 				a(href="/") wolkentask
-			div#option-buttons
+			div.button-bar#option-buttons
 				button.btn(type="button", ng-click="logout()", title="Logout")
 					i.fa.fa-sign-out
 				button.btn#toggleButton(type="button", ng-click="toggleNavMenu()", title="Toggle file menu", ng-class="{hideToggleButton: !showNavMenu}")
@@ -48,34 +48,34 @@ block content
 					div#file-top-nav
 						div.wt-file-top-name
 							h3 {{currentFileName}}
-						div.wt-file-button-bar
+						div.button-bar#wt-file-button-bar
 							favorite-star(wt-path="currentFilePath")
 							sync-button(wt-status="saveStatus", wt-save="saveFile()")
 
-					ul.list-unstyled
-						li.wt-todo-item
+					ul.list-unstyled.wt-todo-items
+						li
 							div.wt-todo-group
 								div.wt-todo-checkbox
 									input(type="checkbox", ng-model="staticMarkAllCheckboxF", ng-change="markAllTodosAs(true)")
 								div.wt-todo-text
-									p.wt-todo-header Todo
-						li.wt-todo-item
+									p Todo
+						li
 							div.wt-todo-group
 								form(role="form", ng-submit="addNewTodo()")
-									div.wt-todo-text
+									div.wt-todo-input
 										label.sr-only(for="formAddTodo") New Todo
 										input#formAddTodo(type="text", placeholder="New Todo", ng-model="newTodo.rawData")
-						li.wt-todo-item(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
+						li(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
 							single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
 
-					ul.list-unstyled
-						li.wt-todo-item
+					ul.list-unstyled.wt-todo-items
+						li
 							div.wt-todo-group
 								div.wt-todo-checkbox
 									input(type="checkbox", ng-model="staticMarkAllCheckboxT", ng-change="markAllTodosAs(false)")
 								div.wt-todo-text
-									p.wt-todo-header Done
-						li.wt-todo-item(ng-repeat="todo in currentFileData | filter: { display: true, done: true }")
+									p Done
+						li(ng-repeat="todo in currentFileData | filter: { display: true, done: true }")
 							single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
 						li.wt-no-todo-item
 							div.wt-todo-group
