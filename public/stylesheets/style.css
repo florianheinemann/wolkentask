@@ -12,33 +12,9 @@ html {
 }
 
 body {
-	color: #1C1D21;
-	background-color: #EEEFF7;
-	font-family: 'Roboto', Helvetica, Arial, sans-serif;
-	font-weight: 400;
-	font-size: 15px;
-	line-height: 1.428571429;
 	margin: 0;
 	padding: 0;
 	height: 100%;
-}
-
-h1 {
-	font-size: 32px;
-}
-
-h2 {
-	font-size: 28px;
-}
-
-h3 {
-	font-size: 24px;
-}
-
-h1, h2, h3 {
-	font-weight: 100;
-	margin-top: 20px;
-	margin-bottom: 10px;
 }
 
 header, footer {
@@ -59,11 +35,6 @@ a:focus {
 	outline:thin dotted #333;
 	outline:5px auto -webkit-focus-ring-color;
 	outline-offset:-2px
-}
-
-ul, ol {
-	margin-top: 0;
-	margin-bottom: 10px;
 }
 
 button, input, select[multiple], textarea {
@@ -225,7 +196,7 @@ input, button, select, textarea {
 	box-sizing: border-box;
 }
 
-/* Generic grid layout */
+/* Grid layout */
 
 .section {
 	clear: both;
@@ -239,28 +210,80 @@ input, button, select, textarea {
 	overflow: hidden;
 }
 
-.span_2_of_3 {
+.content-column {
 	margin-left: 280px;
 }
 
-.span_1_of_3 {
+.nav-column {
 	float: left;
 	width: 280px;
 }
 
 @media(max-width: 767px) {
-	.span_2_of_3 {
+	.content-column {
 		width: 100%; 
 		margin-left: 0px;
 		float: none;
 	}
 
-	.span_1_of_3 {
+	.nav-column {
 		width: 100%;
 	}
 }
 
 /* Specific styles */
+
+body {
+	color: #1C1D21;
+	background-color: #EEEFF7;
+	font-family: 'Roboto', Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 1.428571429;
+}
+
+@media(max-width: 768px) {
+	body {
+		font-size: 20px;
+	}
+}
+
+h1 {
+	font-size: 32px;
+}
+
+h2 {
+	font-size: 28px;
+}
+
+h3 {
+	font-size: 24px;
+}
+
+@media(max-width: 768px) {
+	h2 {
+		font-size: 30px;
+	}
+
+	h3 {
+		font-size: 28px;
+	}
+}
+
+h1, h2, h3 {
+	font-weight: 100;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+ul, ol {
+	margin-top: 0;
+	margin-bottom: 20px;
+}
+
+button {
+	font-size: 15px;
+}
 
 #wrapper {
 	min-height: 100%;
@@ -298,6 +321,7 @@ input, button, select, textarea {
 	height: 40px;
 	line-height: 40px;
 	padding: 5px;
+	text-align: center;
 }
 
 #option-buttons {
@@ -305,8 +329,13 @@ input, button, select, textarea {
 	position: absolute;
 	text-align: right;
 	right: 5px;
-	top: 6px;
+	top: 3px;
 	width: 100px;
+}
+
+#option-buttons button {
+	height: 35px;
+	width: 35px;
 }
 
 @media(min-width:768px) {
@@ -320,7 +349,6 @@ input, button, select, textarea {
 }
 
 @media(max-width: 767px) {
-
 	#file-pane.hideFilePane {
 		height: 0px;
 		overflow: hidden;
@@ -429,12 +457,25 @@ li + li + .wt-no-todo-item {
 	text-align: center;
 }
 
+@media(max-width: 768px) {
+	.wt-todo-checkbox {
+		top: 3px;
+		width: 45px;
+	}
+}
+
 .wt-todo-input {
 	position: absolute;
 	left: 30px;
 	right: 45px;
 	top: 0px;
 	bottom: 0px;
+}
+
+@media(max-width: 768px) {
+	.wt-todo-input {
+		left: 45px;
+	}
 }
 
 .wt-todo-input form, .wt-todo-input input[type="text"] {
@@ -446,12 +487,24 @@ li + li + .wt-no-todo-item {
 	margin: 0px 45px 0px 30px;
 }
 
+@media(max-width: 768px) {
+	.wt-todo-text {
+		margin-left: 45px;
+	}
+}
+
 .wt-todo-text p {
 	margin: 0px;
 	width: 100%;
 	overflow: visible;
 	white-space: normal;
 	padding: 7px 0px 5px 0px;
+}
+
+@media(max-width: 768px) {
+	.wt-todo-text p {
+		padding-top: 4px;
+	}
 }
 
 @media(min-width:768px) {
@@ -507,6 +560,29 @@ input:-ms-input-placeholder {
 	font-size: 15px;
 	color: #A3A3A3;
 }
+
+@media(max-width: 768px) {
+	input[type="text"] {
+		font-size: 20px;	
+	}
+
+	input::-webkit-input-placeholder { 
+		font-size: 20px;
+	}
+
+	input:-moz-placeholder { 
+		font-size: 20px;
+	}
+
+	input::-moz-placeholder { 
+		font-size: 20px;
+	}
+
+	input:-ms-input-placeholder { 
+		font-size: 20px;
+	}
+}
+
 
 .wt-btn-group {
 	text-align: right;

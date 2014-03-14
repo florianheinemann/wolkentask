@@ -18,7 +18,7 @@ block content
 					i.fa.fa-bars
 
 		div.section#middle-section
-			div.col.span_1_of_3#file-pane(ng-class="{hideFilePane: !showNavMenu}")
+			div.col.nav-column#file-pane(ng-class="{hideFilePane: !showNavMenu}")
 				h3 Favorites
 				ul.list-unstyled.wt-file-list
 					li.wt-fav(ng-repeat="favorite in favorites", ng-cloak)
@@ -38,7 +38,7 @@ block content
 					li
 						new-file(wt-create="createNewFile(path)", wt-path="currentFolder")
 
-			div.col.span_2_of_3#content-pane
+			div.col.content-column#content-pane
 
 				div.wt-no-content(ng-hide="currentFileName")
 					h3 Let's get started!
@@ -82,4 +82,9 @@ block content
 								div.wt-todo-text
 									p Let's get it done!
 		footer#end
-			div Florian Heinemann
+			div
+				a(href="/about") About
+				|  // 
+				a(href="/contact") Contact
+				|  // 
+				a(href="/legal") Legal
