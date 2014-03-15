@@ -70,7 +70,7 @@ input, button, select, textarea {
 .btn {
 	display: inline-block;
 	padding: 6px 12px;
-	margin-bottom: 2px 2px 0px 2px;
+	margin: 2px;
 	text-align: center;
 	white-space: nowrap;
 	vertical-align: middle;
@@ -329,7 +329,7 @@ button {
 	position: absolute;
 	text-align: right;
 	right: 5px;
-	top: 3px;
+	top: 7px;
 	width: 100px;
 }
 
@@ -391,10 +391,18 @@ button {
 	display: none;
 }
 
+.wt-loading-icon {
+	padding: 0px 5px 0px 5px;
+}
+
 @media(min-width:768px) {
 	.wt-file-list li a:hover {
 		background-color: #5FC6F4;
 		text-decoration: none;
+	}
+
+	.wt-loading-icon {
+		padding: 0px 2px 0px 1px;
 	}
 }
 
@@ -420,6 +428,10 @@ button {
 	text-align: right;
 }
 
+#wt-file-button-bar button {
+	height: 35px;
+}
+
 @media(max-width: 768px) {
 	#file-top-nav .wt-file-top-name {
 		margin-right: 90px;
@@ -427,6 +439,10 @@ button {
 
 	#wt-file-button-bar {
 		width: 90px;
+	}
+
+	#wt-file-button-bar button {
+		width: 35px;
 	}
 }
 
@@ -561,6 +577,21 @@ input:-ms-input-placeholder {
 	color: #A3A3A3;
 }
 
+.wt-btn-group {
+	text-align: right;
+	position: absolute;
+	right: 5px;
+	top: 0px;
+	width: 40px;
+}
+
+.wt-btn-group button {
+	width: 30px;
+	height: 30px;
+	padding: 0px;
+	margin-right: 5px;
+}
+
 @media(max-width: 768px) {
 	input[type="text"] {
 		font-size: 20px;	
@@ -581,28 +612,10 @@ input:-ms-input-placeholder {
 	input:-ms-input-placeholder { 
 		font-size: 20px;
 	}
-}
 
-
-.wt-btn-group {
-	text-align: right;
-	position: absolute;
-	right: 5px;
-	top: 2px;
-	width: 40px;
-}
-
-.wt-btn-group button {
-	width: 30px;
-	height: 30px;
-	padding: 0px;
-	font-size: 16px;
-	margin-right: 5px;
-	font-size: 14px;
-}
-
-.wt-btn-group button:last-child {
-	margin-right: 0px;
+	.wt-btn-group {
+		top: 2px;
+	}
 }
 
 .hidden-inline-xs {
