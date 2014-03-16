@@ -1,17 +1,13 @@
 doctype html
 html(ng-app='wolkentask')
 	head
-		title= title
+		title wolkentask
 		link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css')
 		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Roboto:100,400')
 		link(rel='stylesheet', href='/stylesheets/style.css')
 		meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
-
 		block head
-	
 	body
 		block content
 
-		script(type='application/javascript', src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js')
-		script(type='application/javascript', src='//cdnjs.cloudflare.com/ajax/libs/dropbox.js/0.10.2/dropbox.min.js')
-		script(type='text/javascript', src='/javascripts/modules/WolkentaskApp.js')
+		block addon-scripts

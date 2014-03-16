@@ -5,82 +5,82 @@ block head
 	script(type='text/javascript', src='/javascripts/controllers/WolkentaskController.js')
 
 block content
-
 	div#wrapper(ng-controller="WolkentaskController", ng-init="initialize('#{providerId}', '#{providerToken}', '#{dropboxAppKey}')")
-		
 		header#top
 			h1 
 				a(href="/") wolkentask
+
 			div.button-bar#option-buttons
-				button.btn(type="button", ng-click="logout()", title="Logout")
-					i.fa.fa-sign-out
+				form(action="/logout")
+					button.btn(type="submit", title="Logout")
+						i.fa.fa-sign-out
 				button.btn#toggleButton(type="button", ng-click="toggleNavMenu()", title="Toggle file menu", ng-class="{hideToggleButton: !showNavMenu}")
 					i.fa.fa-bars
 
 		div.section#middle-section
 			div.col.nav-column#file-pane(ng-class="{hideFilePane: !showNavMenu}")
-				h3 Favorites
-				ul.list-unstyled.wt-file-list
-					li.wt-fav(ng-repeat="favorite in favorites", ng-cloak)
-						file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path, true)")
-					li.wt-no-fav No favorites yet
+						h3 Favorites
+						ul.list-unstyled.wt-file-list
+							li.wt-fav(ng-repeat="favorite in favorites", ng-cloak)
+								file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path, true)")
+							li.wt-no-fav No favorites yet
 
-				h3 File browser
-				ul.list-unstyled.wt-file-list
-					li
-						folder-path.wt-file-no-file(wt-path="currentFolder")
-					li(ng-hide="isInRootFolder()")
-						file-listing(wt-name="backString", wt-type="back", wt-open="requestFolderContent(parentFolder)")
-					li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : true } | orderBy:'name'")
-						file-listing(wt-name="fileOrFolder.name", wt-type="folder", wt-open="requestFolderContent(fileOrFolder.path)")
-					li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : false } | orderBy:'name'")
-						file-listing(wt-name="fileOrFolder.name", wt-type="file", wt-open="getFile(fileOrFolder.path)")
-					li
-						new-file(wt-create="createNewFile(path)", wt-path="currentFolder")
+						h3 File browser
+						ul.list-unstyled.wt-file-list
+							li
+								folder-path.wt-file-no-file(wt-path="currentFolder")
+							li(ng-hide="isInRootFolder()")
+								file-listing(wt-name="backString", wt-type="back", wt-open="requestFolderContent(parentFolder)")
+							li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : true } | orderBy:'name'")
+								file-listing(wt-name="fileOrFolder.name", wt-type="folder", wt-open="requestFolderContent(fileOrFolder.path)")
+							li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : false } | orderBy:'name'")
+								file-listing(wt-name="fileOrFolder.name", wt-type="file", wt-open="getFile(fileOrFolder.path)")
+							li
+								new-file(wt-create="createNewFile(path)", wt-path="currentFolder")
 
-			div.col.content-column#content-pane
+					div.col.content-column#content-pane
 
-				div.wt-no-content(ng-hide="currentFileName")
-					h3 Let's get started!
-					p Start by selecting a file from your favorites or your Dropbox. No Todos yet? Simply create a new Todo file!
+						div.wt-no-content(ng-hide="currentFileName")
+							h3 Let's get started!
+							p Start by selecting a file from your favorites or your Dropbox. No Todos yet? Simply create a new Todo file!
 
-				div(ng-show="currentFileName", ng-cloak)
-					div#file-top-nav
-						div.wt-file-top-name
-							h3 {{currentFileName}}
-						div.button-bar#wt-file-button-bar
-							favorite-star(wt-path="currentFilePath")
-							sync-button(wt-status="saveStatus", wt-save="saveFile()")
+						div(ng-show="currentFileName", ng-cloak)
+							div#file-top-nav
+								div.wt-file-top-name
+									h3 {{currentFileName}}
+								div.button-bar#wt-file-button-bar
+									favorite-star(wt-path="currentFilePath")
+									sync-button(wt-status="saveStatus", wt-save="saveFile()")
 
-					ul.list-unstyled.wt-todo-items
-						li
-							div.wt-todo-group
-								div.wt-todo-checkbox
-									input(type="checkbox", ng-model="staticMarkAllCheckboxF", ng-change="markAllTodosAs(true)")
-								div.wt-todo-text
-									p Todo
-						li
-							div.wt-todo-group
-								form(role="form", ng-submit="addNewTodo()")
-									div.wt-todo-input
-										label.sr-only(for="formAddTodo") New Todo
-										input#formAddTodo(type="text", placeholder="New Todo", ng-model="newTodo.rawData")
-						li(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
-							single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
+							ul.list-unstyled.wt-todo-items
+								li
+									div.wt-todo-group
+										div.wt-todo-checkbox
+											input(type="checkbox", ng-model="staticMarkAllCheckboxF", ng-change="markAllTodosAs(true)")
+										div.wt-todo-text
+											p Todo
+								li
+									div.wt-todo-group
+										form(role="form", ng-submit="addNewTodo()")
+											div.wt-todo-input
+												label.sr-only(for="formAddTodo") New Todo
+												input#formAddTodo(type="text", placeholder="New Todo", ng-model="newTodo.rawData")
+								li(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
+									single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
 
-					ul.list-unstyled.wt-todo-items
-						li
-							div.wt-todo-group
-								div.wt-todo-checkbox
-									input(type="checkbox", ng-model="staticMarkAllCheckboxT", ng-change="markAllTodosAs(false)")
-								div.wt-todo-text
-									p Done
-						li(ng-repeat="todo in currentFileData | filter: { display: true, done: true }")
-							single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
-						li.wt-no-todo-item
-							div.wt-todo-group
-								div.wt-todo-text
-									p Let's get it done!
+							ul.list-unstyled.wt-todo-items
+								li
+									div.wt-todo-group
+										div.wt-todo-checkbox
+											input(type="checkbox", ng-model="staticMarkAllCheckboxT", ng-change="markAllTodosAs(false)")
+										div.wt-todo-text
+											p Done
+								li(ng-repeat="todo in currentFileData | filter: { display: true, done: true }")
+									single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
+								li.wt-no-todo-item
+									div.wt-todo-group
+										div.wt-todo-text
+											p Let's get it done!
 		footer#end
 			div
 				a(href="/about") About
@@ -88,3 +88,8 @@ block content
 				a(href="/contact") Contact
 				|  // 
 				a(href="/legal") Legal
+
+block addon-scripts
+	script(type='application/javascript', src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js')
+	script(type='application/javascript', src='//cdnjs.cloudflare.com/ajax/libs/dropbox.js/0.10.2/dropbox.min.js')
+	script(type='text/javascript', src='/javascripts/modules/WolkentaskApp.js')

@@ -2,20 +2,24 @@
 
 exports.index = function(dropboxAppKey) {
 	return function(req, res){
-		res.render('index', { title: 'Wolkentask',
-							dropboxAppKey: dropboxAppKey,
+		res.render('index', { dropboxAppKey: dropboxAppKey,
 	  						providerId : req.user.providerId,
-	  						providerToken : req.user.providerToken });
+	  						providerToken : req.user.providerToken,
+	  						authenticated: req.isAuthenticated() });
 	};
 };
 
 exports.login = function(req, res){
-  res.render('login', { title: 'Wolkentask' });
+	res.render('login');
 };
 
 exports.logout = function(req, res){
 	req.logout();
 	res.redirect('/');
+};
+
+exports.sites = function(req, res) {
+    res.render(req.params.name, { authenticated: req.isAuthenticated() });
 };
 
 exports.partials = function(req, res) {

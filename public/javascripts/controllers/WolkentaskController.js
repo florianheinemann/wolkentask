@@ -26,13 +26,9 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 		alert(message);
 
 		if(errorAction === 2) {
-			$scope.logout();
+			$window.location.href = '/logout';
 		}
 	});
-
-	$scope.logout = function() {
-		$window.location.href = '/logout';
-	}
 
 	$scope.initialize = function(providerId, providerToken, dropboxAppKey) {
 

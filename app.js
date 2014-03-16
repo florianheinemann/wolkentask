@@ -53,7 +53,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', middleware.ensureAuthenticated, routes.index(config.dropbox.app_key));
-app.get('/login', routes.login);
+app.get('/login', middleware.ensureNotAuthenticated, routes.login);
 app.get('/logout', routes.logout);
 
 app.get('/auth/dropbox', passport.authenticate('dropbox-oauth2'), function(req, res){
@@ -81,11 +81,15 @@ if(!config.oauth.redirect_host) {
 	                                      failureRedirect: '/login' }));
 }
 
+// Static sites
+app.get('/:name', routes.sites);
+
 // Favorites
 app.get('/user/favorites', middleware.ensureAuthenticated, routes.listFavorites(User, userModel));
 app.put('/user/favorite.json', middleware.ensureAuthenticated, routes.addFavorite(User, userModel));
 app.delete('/user/favorites/:id', middleware.ensureAuthenticated, routes.removeFavorit(User, userModel));
 
+// Partials
 app.get('/partials/:name', routes.partials);
 
 http.createServer(app).listen(app.get('port'), function(){

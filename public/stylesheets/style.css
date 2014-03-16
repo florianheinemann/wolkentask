@@ -330,7 +330,7 @@ button {
 	text-align: right;
 	right: 5px;
 	top: 7px;
-	width: 100px;
+	width: 80px;
 }
 
 #option-buttons button {
@@ -344,7 +344,7 @@ button {
 	}
 }
 
-#file-pane {
+#content-pane, #file-pane, .middle-content {
 	padding: 5px;
 }
 
@@ -354,10 +354,6 @@ button {
 		overflow: hidden;
 		padding: 0px;
 	}
-}
-
-#content-pane {
-	padding: 5px;
 }
 
 #content-pane h2, #content-pane h3 {
@@ -543,6 +539,8 @@ input[type="text"] {
 }
 
 .wt-todo-input input[type="text"] {
+	padding: 0px;
+	margin: 0px;
 	outline: 0;
 	border: none;
 	background-color: transparent;
