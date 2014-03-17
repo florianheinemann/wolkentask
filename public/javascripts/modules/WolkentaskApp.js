@@ -21,14 +21,14 @@ var wolkentask = angular.module('wolkentask', []);
 				wtOpen: '&'
 			},
 			compile: function ($element, $attrs) {
-				var iconEl = $element.find("i");
+				var iconEl = $element.find("i")[0];
 
-				if($attrs.wtType == "folder") {
-					iconEl.addClass("fa-folder");
-				} else if($attrs.wtType == "back") {
-					iconEl.addClass("fa-chevron-circle-left");
+				if($attrs.wtType === "folder") {
+					iconEl.className += " fa-folder";
+				} else if($attrs.wtType === "back") {
+					iconEl.className += " fa-chevron-circle-left";
 				} else {
-					iconEl.addClass("fa-file");
+					iconEl.className += " fa-file";
 				}
 
 				return function ($scope, $element, $attrs, $controller) {

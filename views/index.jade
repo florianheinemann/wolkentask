@@ -7,13 +7,15 @@ block head
 block content
 	div#wrapper(ng-controller="WolkentaskController", ng-init="initialize('#{providerId}', '#{providerToken}', '#{dropboxAppKey}')")
 		header#top
-			h1 
-				a(href="/") wolkentask
-
+			h1
+				a(href="/")
+					i.fa.fa-cloud
+					| &nbsp;wolkentask
 			div.button-bar#option-buttons
-				form(action="/logout")
-					button.btn(type="submit", title="Logout")
-						i.fa.fa-sign-out
+				if authenticated
+					form.inline-element(action="/logout")
+						button.btn(type="submit", title="Logout")
+							i.fa.fa-power-off
 				button.btn#toggleButton(type="button", ng-click="toggleNavMenu()", title="Toggle file menu", ng-class="{hideToggleButton: !showNavMenu}")
 					i.fa.fa-bars
 

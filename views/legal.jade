@@ -5,14 +5,15 @@ block head
 block content
 	div#wrapper
 		header#top
-			h1 
-				a(href="/") wolkentask
-
+			h1
+				a(href="/")
+					i.fa.fa-cloud
+					| &nbsp;wolkentask
 			div.button-bar#option-buttons
 				if authenticated
-					form(action="/logout")
+					form.inline-element(action="/logout")
 						button.btn(type="submit", title="Logout")
-							i.fa.fa-sign-out
+							i.fa.fa-power-off
 
 		div.section#middle-section
 			div.middle-content

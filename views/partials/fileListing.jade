@@ -1,5 +1,5 @@
 span
 	a(ng-click="open()", href="")
-		img.ng-hide.wt-loading-icon(ng-show="loading", src="/images/ajax-loader.gif")
-		i.fa.fa-fw(ng-hide="loading") 
+		i.fa.fa-fw(ng-hide="loading")
+		i.ng-hide.fa.fa-fw.fa-refresh(ng-show="loading", ng-class="{rotateElement: loading}")
 		| {{wtName}}
