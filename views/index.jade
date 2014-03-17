@@ -12,12 +12,12 @@ block content
 					i.fa.fa-cloud
 					| &nbsp;wolkentask
 			div.button-bar#option-buttons
+				button.btn#toggleButton(type="button", ng-click="toggleNavMenu()", title="Toggle file menu", ng-class="{hideToggleButton: !showNavMenu}")
+					i.fa.fa-bars
 				if authenticated
 					form.inline-element(action="/logout")
 						button.btn(type="submit", title="Logout")
 							i.fa.fa-power-off
-				button.btn#toggleButton(type="button", ng-click="toggleNavMenu()", title="Toggle file menu", ng-class="{hideToggleButton: !showNavMenu}")
-					i.fa.fa-bars
 
 		div.section#middle-section
 			div.col.nav-column#file-pane(ng-class="{hideFilePane: !showNavMenu}")
