@@ -306,6 +306,10 @@ button {
 	color: #EEEFF7;
 }
 
+#top h1 i {
+	vertical-align: middle;
+}
+
 #middle-section {
 	padding-bottom: 50px;
 	overflow: auto;
