@@ -3,6 +3,16 @@ extends layout
 block head
 
 block content
-	h1 Login to wolkentask
-	p Please login using your dropbox account: 
-		a(href="/auth/dropbox") Login!
+	div#wrapper
+		header#top
+			include includes/header
+
+		div.section#middle-section
+			div.middle-content
+				h3 Login to wolkentask
+				p Please login using your dropbox account: 
+					a(href="/auth/dropbox") Login!
+		footer#end
+			include includes/footer
+
+block addon-scripts

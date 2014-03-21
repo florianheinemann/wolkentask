@@ -5,29 +5,15 @@ block head
 block content
 	div#wrapper
 		header#top
-			h1
-				a(href="/")
-					i.fa.fa-cloud
-					| &nbsp;wolkentask
-			div.button-bar#option-buttons
-				if authenticated
-					form.inline-element(action="/logout")
-						button.btn(type="submit", title="Logout")
-							i.fa.fa-power-off
+			include includes/header
 
 		div.section#middle-section
 			div.middle-content
-				h3 Contact us
-				p On Twitter: 
-					a(href="https://twitter.com/wolkentask") @wolkentask
-				p Via email: 
-					a(href="mailto:help@wolkentask.com") help@wolkentask.com
+				h3 wolkentask
+				h4 Simple & Fast
+				p No nonsense - todos and nothing else
+				h4 
 		footer#end
-			div
-				a(href="/about") About
-				|  // 
-				a(href="/contact") Contact
-				|  // 
-				a(href="/legal") Legal
+			include includes/footer
 
 block addon-scripts

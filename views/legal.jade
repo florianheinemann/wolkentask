@@ -5,15 +5,7 @@ block head
 block content
 	div#wrapper
 		header#top
-			h1
-				a(href="/")
-					i.fa.fa-cloud
-					| &nbsp;wolkentask
-			div.button-bar#option-buttons
-				if authenticated
-					form.inline-element(action="/logout")
-						button.btn(type="submit", title="Logout")
-							i.fa.fa-power-off
+			include includes/header
 
 		div.section#middle-section
 			div.middle-content
@@ -21,11 +13,6 @@ block content
 				p Copyright (C) 2014 Florian HEINEMANN
 				p THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		footer#end
-			div
-				a(href="/about") About
-				|  // 
-				a(href="/contact") Contact
-				|  // 
-				a(href="/legal") Legal
+			include includes/footer
 
 block addon-scripts
