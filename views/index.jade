@@ -21,13 +21,13 @@ block content
 
 		div.section#middle-section
 			div.col.nav-column#file-pane(ng-class="{hideFilePane: !showNavMenu}")
-						h3 Favorites
+						h2 Favorites
 						ul.list-unstyled.wt-file-list
 							li.wt-fav(ng-repeat="favorite in favorites", ng-cloak)
 								file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path, true)")
 							li.wt-no-fav No favorites yet
 
-						h3 File browser
+						h2 File browser
 						ul.list-unstyled.wt-file-list
 							li
 								folder-path.wt-file-no-file(wt-path="currentFolder")
@@ -43,13 +43,13 @@ block content
 					div.col.content-column#content-pane
 
 						div.wt-no-content(ng-hide="currentFileName")
-							h3 Let's get started!
+							h2 Let's get started!
 							p Start by selecting a file from your favorites or your Dropbox. No Todos yet? Simply create a new Todo file!
 
 						div(ng-show="currentFileName", ng-cloak)
 							div#file-top-nav
 								div.wt-file-top-name
-									h3 {{currentFileName}}
+									h2 {{currentFileName}}
 								div.button-bar#wt-file-button-bar
 									favorite-star(wt-path="currentFilePath")
 									sync-button(wt-status="saveStatus", wt-save="saveFile()")
