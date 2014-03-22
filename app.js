@@ -20,7 +20,7 @@ app.set('port', config.http.port);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(enforce.HTTPS());
+app.use(enforce.HTTPS(true));
 
 app.use(express.favicon('public/images/favicon.ico'));
 app.use(express.logger('dev'));
