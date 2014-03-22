@@ -1,7 +1,7 @@
 "use strict";
 
 exports.index = function(dropboxAppKey) {
-	return function(req, res){
+	return function(req, res) {
 		res.render('index', { dropboxAppKey: dropboxAppKey,
 	  						providerId : req.user.providerId,
 	  						providerToken : req.user.providerToken,

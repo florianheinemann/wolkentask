@@ -3,6 +3,7 @@ config.mongodb = {};
 config.dropbox = {};
 config.oauth = {};
 config.http = {};
+config.ga = {};
 
 config.mongodb.host = process.env.MONGO_HOST || '127.0.0.1';
 config.mongodb.port = process.env.MONGO_PORT || 27017;
@@ -31,5 +32,8 @@ config.oauth.redirect_host = process.env.OAUTH_REDIRECT_HOST || '';
 
 config.http.port = process.env.PORT || 3000;
 config.http.cookie_secret = process.env.HTTP_COOKIE_SECRET || 'YOUR COOKIE SECRET';
+
+config.ga.id = process.env.GA_ID || '';
+config.ga.domain = process.env.GA_DOMAIN || '';
 
 module.exports = config;

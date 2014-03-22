@@ -22,7 +22,6 @@ app.use(express.favicon('public/images/favicon.ico'));
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
-// to use put and delete in addition to post and get
 app.use(express.methodOverride());
 
 app.use(express.cookieParser());
@@ -44,13 +43,10 @@ passport.use(userModel.dropboxOAuth2Strategy(User, config.dropbox.app_key,
 passport.serializeUser(userModel.serializeUser);
 passport.deserializeUser(userModel.deserializeUser(User));
 
+app.use(middleware.embedGoogleAnalytics(config.ga.id, config.ga.domain));
+
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-
-// development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
 
 app.get('/', middleware.ensureAuthenticated, routes.index(config.dropbox.app_key));
 app.get('/login', middleware.ensureNotAuthenticated, routes.login);
@@ -88,9 +84,6 @@ app.get('/:name', routes.sites);
 app.get('/user/favorites', middleware.ensureAuthenticated, routes.listFavorites(User, userModel));
 app.put('/user/favorite.json', middleware.ensureAuthenticated, routes.addFavorite(User, userModel));
 app.delete('/user/favorites/:id', middleware.ensureAuthenticated, routes.removeFavorit(User, userModel));
-
-// Partials
-app.get('/partials/:name', routes.partials);
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));

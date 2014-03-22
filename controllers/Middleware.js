@@ -1,5 +1,15 @@
 "use strict";
 
+exports.embedGoogleAnalytics = function(gaId, gaDomain) {
+	return function(req, res, next) {
+		if(gaId && gaDomain) {
+				res.locals.gaId = gaId;
+				res.locals.gaDomain = gaDomain;
+		}
+		next();
+	}
+}
+
 exports.ensureAuthenticated = function(req, res, next) {
 	if (req.isAuthenticated()) 
 		return next(); 
