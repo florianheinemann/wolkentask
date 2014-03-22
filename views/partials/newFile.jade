@@ -4,5 +4,5 @@ span
 			label.ng-hide(for="newFileInput", ng-show="displayError") Only text files are allowed
 			input.form-control#newFileInput(type="text", ng-model="fileName", placeholder="New file.md", ng-blur="cancel()")
 	span.ng-hide(ng-show="waiting")
-		img(src="/images/ajax-loader.gif")
+		i.fa.fa-fw.fa-refresh(ng-class="{rotateElement: loading}")
 		span {{fileName}}
