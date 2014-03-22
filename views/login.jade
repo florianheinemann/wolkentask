@@ -7,12 +7,16 @@ block content
 		header#top
 			include includes/header
 
-		div.section#middle-section
-			div.middle-content
-				h2 Login to wolkentask
-				p Please login using your dropbox account: 
-					a(href="/auth/dropbox") Login!
-				p No Dropbox account yet?
+		div#middle-section
+			div.white-panel
+				div#hero
+					h2 Simple, plain text to-do editing directly on your Dropbox.
+					form.inline-element(action="/auth/dropbox")
+						button.btn(type="submit", title="Logout") Login with
+							img(src="/images/dropbox-logo.png", alt="Dropbox")
+
+			include includes/about
+
 		footer#end
 			include includes/footer
 

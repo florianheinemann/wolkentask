@@ -194,12 +194,8 @@ input, button, select, textarea {
 	background-color: #fff;
 	border: 1px solid #ccc;
 	box-sizing: border-box;
-}
-
-.img-responsive {
-	display: block;
-	max-width: 100%;
-	height: auto;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 
 .responsive-img {
@@ -220,6 +216,8 @@ input, button, select, textarea {
 .col {
 	display: block;
 	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 	overflow: hidden;
 }
 
@@ -373,11 +371,53 @@ button {
 	}
 }
 
-#about-panel {
+.white-panel {
 	overflow: hidden;
-	margin: 5px;
+	margin: 5px 5px 20px 5px;
 	background-color: white;
 	box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.75);
+}
+
+@media(min-width:768px) {
+	.white-panel {
+		width: 750px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+}
+
+#about h3 {
+	text-align: center;
+}
+
+#hero {
+	padding: 5px;
+	height: 190px;
+	background-image: url(/images/hero.jpg);
+}
+
+#hero h2 {
+	background-color: #1C1D21;
+	color: #EEEFF7;
+	display: inline;
+}
+
+#hero button {
+	display: block;
+	margin-left: 0px;
+	margin-top: 10px;
+	padding: 2px 12px;
+}
+
+#hero button img {
+	vertical-align: middle;
+}
+
+@media(min-width:768px) {
+	#hero {
+		padding: 50px 5px 5px 5px;
+		height: 145px;
+	}
 }
 
 #img-text-file {
@@ -398,12 +438,6 @@ button {
 }
 
 @media(min-width:768px) {
-	#about-panel {
-		width: 750px;
-		margin-right: auto;
-		margin-left: auto;
-	}
-
 	#img-text-file {
 		background-position: 0px 0px;
 		height: 173px;
@@ -416,10 +450,6 @@ button {
 	#img-dropbox {
 		background-position: 0px 0px;
 	}
-}
-
-#about-panel h3 {
-	text-align: center;
 }
 
 #content-pane, #file-pane, .middle-content {
