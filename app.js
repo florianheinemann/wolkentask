@@ -6,6 +6,7 @@ var http = require('http');
 var passport = require('passport');
 var path = require('path');
 var Mongoose = require('mongoose');
+var enforce = require('heroku-node-sslify');
 var userModel = require('./models/User.js');
 var middleware = require('./controllers/Middleware.js');
 
@@ -18,6 +19,9 @@ var User = db.model('users', userModel.UserSchema);
 app.set('port', config.http.port);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+app.use(enforce.HTTPS());
+
 app.use(express.favicon('public/images/favicon.ico'));
 app.use(express.logger('dev'));
 app.use(express.json());
