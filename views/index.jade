@@ -44,7 +44,7 @@ block content
 
 						div.wt-no-content(ng-hide="currentFileName")
 							h2 Let's get started!
-							p Start by selecting a file from your favorites or your Dropbox. No Todos yet? Simply create a new Todo file!
+							p Start by selecting a file from your favorites or your Dropbox. No to-dos yet? Simply create a new to-do file!
 
 						div(ng-show="currentFileName", ng-cloak)
 							div#file-top-nav
@@ -60,13 +60,13 @@ block content
 										div.wt-todo-checkbox
 											input(type="checkbox", ng-model="staticMarkAllCheckboxF", ng-change="markAllTodosAs(true)")
 										div.wt-todo-text
-											p Todo
+											p To-do
 								li
 									div.wt-todo-group
 										form(role="form", ng-submit="addNewTodo()")
 											div.wt-todo-input
-												label.sr-only(for="formAddTodo") New Todo
-												input#formAddTodo(type="text", placeholder="New Todo", ng-model="newTodo.rawData")
+												label.sr-only(for="formAddTodo") New to-do
+												input#formAddTodo(type="text", placeholder="New to-do", ng-model="newTodo.rawData")
 								li(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
 									single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
 

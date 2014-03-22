@@ -196,6 +196,19 @@ input, button, select, textarea {
 	box-sizing: border-box;
 }
 
+.img-responsive {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+.responsive-img {
+	display: block;
+	width: 100%;
+	background-repeat: no-repeat;
+	clear: both;
+}
+
 /* Grid layout */
 
 .section {
@@ -365,6 +378,44 @@ button {
 	margin: 5px;
 	background-color: white;
 	box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.75);
+}
+
+#img-text-file {
+	height: 143px;
+	background-image: url(/images/text-file.gif);
+	background-position: 0px -30px;
+}
+
+#img-screenshot {
+	height: 200px;
+	background-image: url(/images/screenshot-wide.gif);
+}
+
+#img-dropbox {
+	height: 173px;
+	background-image: url(/images/dropbox.gif);
+	background-position: -185px 0px;
+}
+
+@media(min-width:768px) {
+	#about-panel {
+		width: 750px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+
+	#img-text-file {
+		background-position: 0px 0px;
+		height: 173px;
+	}
+
+	#img-screenshot {
+		height: 224px;
+	}
+
+	#img-dropbox {
+		background-position: 0px 0px;
+	}
 }
 
 #about-panel h3 {
