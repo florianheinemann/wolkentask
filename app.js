@@ -80,6 +80,9 @@ if(!config.oauth.redirect_host) {
 // Static sites
 app.get('/:name', routes.sites);
 
+// Partials
+app.get('/partials/:name', routes.partials);
+
 // Favorites
 app.get('/user/favorites', middleware.ensureAuthenticated, routes.listFavorites(User, userModel));
 app.put('/user/favorite.json', middleware.ensureAuthenticated, routes.addFavorite(User, userModel));
