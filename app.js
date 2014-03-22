@@ -53,7 +53,7 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', middleware.ensureAuthenticated, routes.index(config.dropbox.app_key));
-app.get('/login', middleware.ensureNotAuthenticated, routes.login);
+app.all('/login', middleware.ensureNotAuthenticated, routes.login);
 app.get('/logout', routes.logout);
 
 app.get('/auth/dropbox', passport.authenticate('dropbox-oauth2'), function(req, res){
