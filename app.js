@@ -26,7 +26,7 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 
 if(config.http.enforce_ssl) {
-	app.use(enforce.HTTPS(config.http.trust_proxy === true));
+	app.use(enforce.HTTPS(config.http.trust_proxy));
 }
 
 app.use(express.cookieParser());
