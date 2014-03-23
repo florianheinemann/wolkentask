@@ -2,9 +2,19 @@
 
 exports.index = function(dropboxAppKey, decrypt) {
 	return function(req, res) {
+		// To ensure legacy users are reauthorized 
+		var decryptedToken = '';
+		try {
+			decryptedToken = decrypt(req.user.providerToken);
+		}
+		catch (e) {
+			exports.logout(req, res);
+			return;
+		}
+
 		res.render('index', { dropboxAppKey: dropboxAppKey,
 	  						providerId : req.user.providerId,
-	  						providerToken : decrypt(req.user.providerToken),
+	  						providerToken : decryptedToken,
 	  						authenticated: req.isAuthenticated() });
 	};
 };
