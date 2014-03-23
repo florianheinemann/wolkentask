@@ -87,6 +87,8 @@ exports.findOrCreateOAuthUser = function(User, user, callback) {
                         } else {
                             foundUser.providerToken = user.providerToken;
                             foundUser.providerSecret = user.providerSecret;
+                            foundUser.email = user.email;
+                            foundUser.displayName = user.displayName;
                             foundUser.save(callback);
                         }
                 });
@@ -100,7 +102,7 @@ exports.dropboxOAuth2Strategy = function(User, clientID, clientSecret, callbackU
                 },
                 function(accessToken, refreshToken, profile, done) {
                     var user = new User( {
-                        email : profile.emails[0],
+                        email : profile.emails[0].value,
                         displayName : profile.displayName,
                         provider : "dropbox - oauth2",
                         providerId : profile.id,
