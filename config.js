@@ -32,6 +32,8 @@ config.oauth.redirect_host = process.env.OAUTH_REDIRECT_HOST || '';
 
 config.http.port = process.env.PORT || 3000;
 config.http.cookie_secret = process.env.HTTP_COOKIE_SECRET || 'YOUR COOKIE SECRET';
+config.http.enforce_ssl = process.env.HTTP_ENFORCE_SSL;
+config.http.trust_proxy = process.env.HTTP_TRUST_PROXY;
 
 config.ga.id = process.env.GA_ID || '';
 config.ga.domain = process.env.GA_DOMAIN || '';

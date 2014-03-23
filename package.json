@@ -12,7 +12,8 @@
     "connect-mongostore": "0.0.10",
     "mongoose": "~3.8.3",
     "passport": "~0.1.18",
-    "passport-dropbox-oauth2": "~0.1.4"
+    "passport-dropbox-oauth2": "~0.1.4",
+    "express-sslify": "0.0.1"
   },
   "repository": {
     "type": "git",

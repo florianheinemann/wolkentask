@@ -6,6 +6,7 @@ var http = require('http');
 var passport = require('passport');
 var path = require('path');
 var Mongoose = require('mongoose');
+var enforce = require('express-sslify');
 var userModel = require('./models/User.js');
 var middleware = require('./controllers/Middleware.js');
 
@@ -23,6 +24,10 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+
+if(config.http.enforce_ssl) {
+	app.use(enforce.HTTPS(config.http.trust_proxy === true));
+}
 
 app.use(express.cookieParser());
 app.use(express.session({	secret: config.http.cookie_secret,
