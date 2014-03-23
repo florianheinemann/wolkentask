@@ -86,7 +86,6 @@ exports.findOrCreateOAuthUser = function(User, user, callback) {
                             user.save(callback);
                         } else {
                             foundUser.providerToken = user.providerToken;
-                            foundUser.providerSecret = user.providerSecret;
                             foundUser.email = user.email;
                             foundUser.displayName = user.displayName;
                             foundUser.save(callback);
@@ -94,7 +93,7 @@ exports.findOrCreateOAuthUser = function(User, user, callback) {
                 });
 };
 
-exports.dropboxOAuth2Strategy = function(User, clientID, clientSecret, callbackUrl) {
+exports.dropboxOAuth2Strategy = function(User, clientID, clientSecret, encrypt, callbackUrl) {
     return new DropboxOAuth2Strategy ( {
                     clientID: clientID,
                     clientSecret: clientSecret,
@@ -102,12 +101,11 @@ exports.dropboxOAuth2Strategy = function(User, clientID, clientSecret, callbackU
                 },
                 function(accessToken, refreshToken, profile, done) {
                     var user = new User( {
-                        email : profile.emails[0].value,
-                        displayName : profile.displayName,
+                        email : encrypt(profile.emails[0].value),
+                        displayName : encrypt(profile.displayName),
                         provider : "dropbox - oauth2",
                         providerId : profile.id,
-                        providerToken : accessToken,
-                        providerSecret : refreshToken
+                        providerToken : encrypt(accessToken)
                     });
                     exports.findOrCreateOAuthUser(User, user, done);
                 }
@@ -118,7 +116,7 @@ exports.serializeUser = function(user, done) {
     done(null, user.id);
 };
 
-exports.deserializeUser = function(User, id, done) {
+exports.deserializeUser = function(User) {
     return function(id, done) {
         exports.findUserById(User, id, function(err, user) {
             done(err, user);

@@ -2,6 +2,7 @@ var config = {};
 config.mongodb = {};
 config.dropbox = {};
 config.oauth = {};
+config.data = {};
 config.http = {};
 config.ga = {};
 
@@ -29,6 +30,8 @@ config.dropbox.auth_callback_url = process.env.DROPBOX_APP_CALLBACK || '/auth/dr
 
 // Allows to redirect the OAuth callback to another host
 config.oauth.redirect_host = process.env.OAUTH_REDIRECT_HOST || '';
+
+config.data.data_sym_crypt_key = process.env.DATA_SYM_CRYPT_KEY || 'SOME CRYPT KEY';
 
 config.http.port = process.env.PORT || 3000;
 config.http.cookie_secret = process.env.HTTP_COOKIE_SECRET || 'YOUR COOKIE SECRET';

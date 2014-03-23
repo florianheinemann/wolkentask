@@ -8,7 +8,8 @@ var path = require('path');
 var Mongoose = require('mongoose');
 var enforce = require('express-sslify');
 var userModel = require('./models/User.js');
-var middleware = require('./controllers/Middleware.js');
+var middleware = require('./controllers/Middleware');
+var symcrypt = require('./controllers/symcrypt')
 
 var app = express();
 
@@ -42,7 +43,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(userModel.dropboxOAuth2Strategy(User, config.dropbox.app_key, 
-						config.dropbox.app_secret, config.dropbox.auth_callback_url_host 
+						config.dropbox.app_secret, symcrypt.encryptString(config.data.data_sym_crypt_key),
+						config.dropbox.auth_callback_url_host 
 													+ config.dropbox.auth_callback_url));
 
 passport.serializeUser(userModel.serializeUser);
@@ -53,7 +55,8 @@ app.use(middleware.embedGoogleAnalytics(config.ga.id, config.ga.domain));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', middleware.ensureAuthenticated, routes.index(config.dropbox.app_key));
+app.get('/', middleware.ensureAuthenticated, routes.index(config.dropbox.app_key, 
+											symcrypt.decryptString(config.data.data_sym_crypt_key)));
 app.get('/login', middleware.ensureNotAuthenticated, routes.login);
 app.get('/logout', routes.logout);
 

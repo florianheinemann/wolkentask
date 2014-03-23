@@ -1,10 +1,10 @@
 "use strict";
 
-exports.index = function(dropboxAppKey) {
+exports.index = function(dropboxAppKey, decrypt) {
 	return function(req, res) {
 		res.render('index', { dropboxAppKey: dropboxAppKey,
 	  						providerId : req.user.providerId,
-	  						providerToken : req.user.providerToken,
+	  						providerToken : decrypt(req.user.providerToken),
 	  						authenticated: req.isAuthenticated() });
 	};
 };
