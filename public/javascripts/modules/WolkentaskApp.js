@@ -421,15 +421,15 @@ var wolkentask = angular.module('wolkentask', []);
 			if(errorType instanceof Dropbox.ApiError) {
 				var error = errorType;
 				if(error.status === Dropbox.ApiError.INVALID_TOKEN)
-					this.raiseError(ErrorEnum.warning, ErrorActionEnum.logout, "You have been logged out by Dropbox. Please re-authorize");
+					this.raiseError(ErrorEnum.warning, ErrorActionEnum.logout, "Your login details are not valid anymore. Please re-authorize wolkentask.");
 				else if(error.status === Dropbox.ApiError.NOT_FOUND)
-					this.raiseError(ErrorEnum.warning, ErrorActionEnum.inform, "The folder / file doesn't exist");
+					this.raiseError(ErrorEnum.warning, ErrorActionEnum.inform, "This folder / file doesn't exist.");
 				else if(error.status === Dropbox.ApiError.RATE_LIMITED)
-					this.raiseError(ErrorEnum.warning, ErrorActionEnum.inform, "You have exceeded the number of queries to the Dropbox API. Please retry in a couple of minutes")
+					this.raiseError(ErrorEnum.warning, ErrorActionEnum.inform, "You have exceeded the number of queries to the Dropbox API. Please retry in a couple of minutes.")
 				else if (error.status === Dropbox.ApiError.OVER_QUOTA)
-					this.raiseError(ErrorEnum.fault, ErrorActionEnum.inform, "You've run out of storage. Your request couldn't be completed")
+					this.raiseError(ErrorEnum.fault, ErrorActionEnum.inform, "You've run out of storage. Your request couldn't be completed.")
 				else
-					this.raiseError(ErrorEnum.fault, ErrorActionEnum.inform, "Critical issue occurred " + error.responseText);
+					this.raiseError(ErrorEnum.fault, ErrorActionEnum.inform, "A critical issue occurred: " + error.responseText);
 			} else {
 				rootScope.$broadcast('error', errorType, errorAction, message);
 			}

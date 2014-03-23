@@ -23,10 +23,12 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 	};
 
 	$scope.$on('error', function(name, errorType, errorAction, message) {
-		alert(message);
-
 		if(errorAction === 2) {
-			$window.location.href = '/logout';
+			alertify.alert(message, function() {
+				$window.location.href = '/logout';
+			});		
+		} else {
+			alertify.error(message);			
 		}
 	});
 
@@ -92,7 +94,8 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 		dropboxClientService.writeFile(path, "- [ ] Your first todo", 
 				{ noOverwrite: true }).then(
 				function(success) {
-					$scope.requestFolderContent($scope.currentFolder).then(function(fileStat) {
+					$scope.requestFolderContent($scope.currentFolder).finally(function() {
+						alertify.success("The file has been successfully created!");
 						deferred.resolve();
 					});
 				}, function(error) {
@@ -104,39 +107,55 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 
 	$scope.getFile = function(path, isFavorite) {        
 		var deferred = $q.defer();
+		var waitForDialog = $q.defer();
 
 		if($scope.saveStatus !== dropboxClientService.SaveStatusEnum.saved) {
-			if(!confirm("There are still some unsaved changes. Are you sure you would like to load a different file and lose those changes?")) {
-				deferred.reject("Unsaved changes detected");
-				return deferred.promise;
-			}
+			alertify.confirm("There are still some unsaved changes. Are you sure you would like to load a different file and lose those changes?", 
+				function (e) {
+					if (e) { // Okay
+						waitForDialog.resolve();
+					} else { // Cancel
+						deferred.reject("Unsaved changes detected");
+						waitForDialog.reject();
+					}
+			});
+		} else {
+			waitForDialog.resolve();
 		}
 
-		dropboxClientService.readFile(path).then(function(success) {
-			$scope.currentFilePath = path;
-			$scope.currentFileName = new Path(path).basename();
-			$scope.currentFileData = parseFile(success.data);
-			$scope.currentFileVersion = success.fileStat.versionTag;
-			$scope.showNavMenu = false;
+		waitForDialog.promise.then(
+			function(okay) {
+				dropboxClientService.readFile(path).then(function(success) {
+					$scope.currentFilePath = path;
+					$scope.currentFileName = new Path(path).basename();
+					$scope.currentFileData = parseFile(success.data);
+					$scope.currentFileVersion = success.fileStat.versionTag;
+					$scope.showNavMenu = false;
 
-			$scope.saveStatus = dropboxClientService.SaveStatusEnum.saved;
-			lastSaveTime = Date.now();
-			lastEditTime = 0;
-			if(saveDelayTimer) {
-				$timeout.cancel(saveDelayTimer);
-				saveDelayTimer = null;
-			}
+					$scope.saveStatus = dropboxClientService.SaveStatusEnum.saved;
+					lastSaveTime = Date.now();
+					lastEditTime = 0;
+					if(saveDelayTimer) {
+						$timeout.cancel(saveDelayTimer);
+						saveDelayTimer = null;
+					}
 
-			deferred.resolve();         
-		}, function(error) {
-			deferred.reject();
-			if(isFavorite && confirm("This file can't be retrieved. Would you like to remove this favorite from your list?")) {
-					favoritesService.removeFavorite(path);
-					return;
-			}
-			exceptionService.raiseError(error);
+					deferred.resolve();         
+				}, function(error) {
+					deferred.reject();
+					if(isFavorite) {
+						alertify.confirm("This file can't be retrieved. Would you like to remove this favorite from your list?", 
+							function (e) {
+								if (e) { // Okay
+									favoritesService.removeFavorite(path);
+								}
+						});
+					}
+					exceptionService.raiseError(error);
+				});
+			}, function(cancel) {
+				deferred.reject("Unsaved changes detected");
 		});
-
 		return deferred.promise;
 	};
 
