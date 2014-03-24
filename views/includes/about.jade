@@ -1,6 +1,17 @@
 div#about
 	div.white-panel
-		div.responsive-img#img-text-file
+		div.responsive-img#hero
+			h2 All your tasks as text files on your Dropbox. Simple.
+			if !authenticated
+				form.inline-element(action="/auth/dropbox")
+					button.btn(type="submit", title="Login with your Dropbox account") Login with
+						img(src="/images/dropbox-logo.png", alt="Dropbox")
+			else
+				form.inline-element(action="/")
+					button.btn(type="submit", title="Dive into your tasks") Dive in!
+
+	div.white-panel
+		div.responsive-img#img-screenshot
 		div.section
 			div.col.col-1-3
 				h3 Plain text.
@@ -14,7 +25,7 @@ div#about
 				h3 Backed up.
 				p Thanks to the synchronization with your Dropbox account, your to-do lists are not only stored in the cloud but also on every computer your Dropbox is linked to.
 	div.white-panel
-		div.responsive-img#img-screenshot
+		div.responsive-img#img-text-file
 		div.section
 			div.col.col-1-3
 				h3 Everywhere.

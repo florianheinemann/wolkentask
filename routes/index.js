@@ -20,7 +20,7 @@ exports.index = function(dropboxAppKey, decrypt) {
 };
 
 exports.login = function(req, res){
-	res.render('login');
+	res.render('about', { authenticated: req.isAuthenticated() });
 };
 
 exports.logout = function(req, res){

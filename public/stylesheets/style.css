@@ -317,6 +317,7 @@ button {
 	background: #1C1D21;
 	color: #EEEFF7;
 	height: 50px;
+	box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.75);
 }
 
 #top h1 {
@@ -373,7 +374,7 @@ button {
 
 .white-panel {
 	overflow: hidden;
-	margin: 5px 5px 20px 5px;
+	margin: 20px 5px;
 	background-color: white;
 	box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.75);
 }
@@ -391,22 +392,25 @@ button {
 }
 
 #hero {
-	padding: 5px;
-	height: 190px;
+	height: 160px;
+	padding: 30px 5px 5px 5px;
 	background-image: url(/images/hero.jpg);
+	text-align: center;
 }
 
 #hero h2 {
-	background-color: #1C1D21;
-	color: #EEEFF7;
+	background-color: white;
+	color: #1C1D21;
 	display: inline;
 }
 
 #hero button {
 	display: block;
-	margin-left: 0px;
+	height: 36px;
 	margin-top: 10px;
-	padding: 2px 12px;
+	padding: 2px 36px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #hero button img {
@@ -415,8 +419,8 @@ button {
 
 @media(min-width:768px) {
 	#hero {
+		height: 140px;
 		padding: 50px 5px 5px 5px;
-		height: 145px;
 	}
 }
 
