@@ -4,11 +4,11 @@ div#about
 			h2 All your tasks as text files on your Dropbox. Simple.
 			if !authenticated
 				form.inline-element(action="/auth/dropbox")
-					button.btn(type="submit", title="Login with your Dropbox account") Login with
+					button.btn.btn-shadow(type="submit", title="Login with your Dropbox account") Login with
 						img(src="/images/dropbox-logo.png", alt="Dropbox")
 			else
 				form.inline-element(action="/")
-					button.btn(type="submit", title="Dive into your tasks") Dive in!
+					button.btn.btn-shadow(type="submit", title="Dive into your tasks") Dive in!
 
 	div.white-panel
 		div.responsive-img#img-screenshot
