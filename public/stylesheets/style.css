@@ -200,6 +200,18 @@ input, button, select, textarea {
 
 /* Grid layout */
 
+.centered-container {
+	padding: 5px;
+}
+
+@media(min-width:768px) {
+	.centered-container {
+		width: 750px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+}
+
 .section {
 	clear: both;
 	padding: 0px;
@@ -207,43 +219,53 @@ input, button, select, textarea {
 }
 
 .col {
-	display: block;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	overflow: hidden;
+	padding: 5px;
+}
+
+#content-pane {
+	margin-left: 280px;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	overflow: hidden;
 }
 
-.content-column {
-	margin-left: 280px;
-}
-
-.nav-column {
+#file-pane {
 	float: left;
 	width: 280px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	overflow: hidden;
 }
 
 .col-1-3 {
 	width: 33.33333333%;
 	float: left;
-	padding: 5px;
+}
+
+.col-full {
+	width: 100%;
 }
 
 @media(max-width: 767px) {
-	.content-column {
+	#content-pane {
 		width: 100%; 
 		margin-left: 0px;
 		float: none;
 	}
 
-	.nav-column {
+	#file-pane {
 		width: 100%;
 	}
 
 	.col-1-3 {
 		width: 100%;
 		float: none;
-		padding: 0px 5px 0px 5px;
 	}
 }
 
@@ -306,6 +328,17 @@ button {
 	position: relative;
 }
 
+.white-panel {
+	background-color: white;
+	box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.75);
+	-webkit-box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.75);
+}
+
+.stacked-panel {
+	margin: 20px 0px;
+	overflow: hidden;
+}
+
 #top {
 	background: #1C1D21;
 	color: #EEEFF7;
@@ -366,22 +399,6 @@ button {
 	}
 }
 
-.white-panel {
-	overflow: hidden;
-	margin: 20px 5px;
-	background-color: white;
-	box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.75);
-	-webkit-box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.75);
-}
-
-@media(min-width:768px) {
-	.white-panel {
-		width: 750px;
-		margin-right: auto;
-		margin-left: auto;
-	}
-}
-
 #about h3 {
 	text-align: center;
 }
@@ -397,6 +414,8 @@ button {
 	background-color: white;
 	color: #1C1D21;
 	display: inline;
+	box-shadow: 1px 1px 1px 0px rgba(50, 50, 50, 0.75);
+	-webkit-box-shadow: 1px 1px 1px 0px rgba(50, 50, 50, 0.75);
 }
 
 #hero button {
@@ -451,28 +470,12 @@ button {
 	}
 }
 
-#content-pane, #file-pane, .middle-content {
-	padding: 5px;
-}
-
 @media(max-width: 767px) {
 	#file-pane.hideFilePane {
 		height: 0px;
 		overflow: hidden;
 		padding: 0px;
 	}
-}
-
-#content-pane h2, #content-pane h3 {
-	padding: 0px 5px;
-}
-
-.wt-no-content h2 {
-	font-style: italic;
-}
-
-#content-pane .wt-no-content p {
-	padding: 0px 5px;
 }
 
 .wt-no-fav, .wt-no-todo-item {

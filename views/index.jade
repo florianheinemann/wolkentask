@@ -19,70 +19,71 @@ block content
 						button.btn(type="submit", title="Logout")
 							i.fa.fa-power-off
 
-		div.section#middle-section
-			div.col.nav-column#file-pane(ng-class="{hideFilePane: !showNavMenu}")
-						h2 Favorites
-						ul.list-unstyled.wt-file-list
-							li.wt-fav(ng-repeat="favorite in favorites", ng-cloak)
-								file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path, true)")
-							li.wt-no-fav No favorites yet
+		div#middle-section
+			div.full-container
+				div.col#file-pane(ng-class="{hideFilePane: !showNavMenu}")
+					h2 Favorites
+					ul.list-unstyled.wt-file-list
+						li.wt-fav(ng-repeat="favorite in favorites", ng-cloak)
+							file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path, true)")
+						li.wt-no-fav No favorites yet
 
-						h2 File browser
-						ul.list-unstyled.wt-file-list
-							li
-								folder-path.wt-file-no-file(wt-path="currentFolder")
-							li(ng-hide="isInRootFolder()")
-								file-listing(wt-name="backString", wt-type="back", wt-open="requestFolderContent(parentFolder)")
-							li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : true } | orderBy:'name'")
-								file-listing(wt-name="fileOrFolder.name", wt-type="folder", wt-open="requestFolderContent(fileOrFolder.path)")
-							li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : false } | orderBy:'name'")
-								file-listing(wt-name="fileOrFolder.name", wt-type="file", wt-open="getFile(fileOrFolder.path)")
-							li
-								new-file(wt-create="createNewFile(path)", wt-path="currentFolder")
+					h2 File browser
+					ul.list-unstyled.wt-file-list
+						li
+							folder-path.wt-file-no-file(wt-path="currentFolder")
+						li(ng-hide="isInRootFolder()")
+							file-listing(wt-name="backString", wt-type="back", wt-open="requestFolderContent(parentFolder)")
+						li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : true } | orderBy:'name'")
+							file-listing(wt-name="fileOrFolder.name", wt-type="folder", wt-open="requestFolderContent(fileOrFolder.path)")
+						li(ng-repeat="fileOrFolder in filesAndFolders | filter: {isFolder : false } | orderBy:'name'")
+							file-listing(wt-name="fileOrFolder.name", wt-type="file", wt-open="getFile(fileOrFolder.path)")
+						li
+							new-file(wt-create="createNewFile(path)", wt-path="currentFolder")
 
-					div.col.content-column#content-pane
-
-						div.wt-no-content.white-panel(ng-hide="currentFileName")
+				div.col#content-pane
+					div.white-panel.stacked-panel.section.wt-no-content(ng-hide="currentFileName")
+						div.col.col-full
 							h2 Let's get started!
-							p Start by selecting a file from your favorites or your Dropbox. No to-dos yet? Simply create a new to-do file!
+							p Start by selecting a file from your Favorites or your Dropbox. No to-dos yet? Simply create a new to-do file!
 
-						div(ng-show="currentFileName", ng-cloak)
-							div#file-top-nav
-								div.wt-file-top-name
-									h2 {{currentFileName}}
-								div.button-bar#wt-file-button-bar
-									favorite-star(wt-path="currentFilePath")
-									sync-button(wt-status="saveStatus", wt-save="saveFile()")
+					div(ng-show="currentFileName", ng-cloak)
+						div#file-top-nav
+							div.wt-file-top-name
+								h2 {{currentFileName}}
+							div.button-bar#wt-file-button-bar
+								favorite-star(wt-path="currentFilePath")
+								sync-button(wt-status="saveStatus", wt-save="saveFile()")
 
-							ul.list-unstyled.wt-todo-items
-								li
-									div.wt-todo-group
-										div.wt-todo-checkbox
-											input(type="checkbox", ng-model="staticMarkAllCheckboxF", ng-change="markAllTodosAs(true)")
-										div.wt-todo-text
-											p To-do
-								li
-									div.wt-todo-group
-										form(role="form", ng-submit="addNewTodo()")
-											div.wt-todo-input
-												label.sr-only(for="formAddTodo") New to-do
-												input#formAddTodo(type="text", placeholder="New to-do", ng-model="newTodo.rawData")
-								li(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
-									single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
+						ul.list-unstyled.wt-todo-items
+							li
+								div.wt-todo-group
+									div.wt-todo-checkbox
+										input(type="checkbox", ng-model="staticMarkAllCheckboxF", ng-change="markAllTodosAs(true)")
+									div.wt-todo-text
+										p To-do
+							li
+								div.wt-todo-group
+									form(role="form", ng-submit="addNewTodo()")
+										div.wt-todo-input
+											label.sr-only(for="formAddTodo") New to-do
+											input#formAddTodo(type="text", placeholder="New to-do", ng-model="newTodo.rawData")
+							li(ng-repeat="todo in currentFileData | filter: { display: true, done: false }")
+								single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
 
-							ul.list-unstyled.wt-todo-items
-								li
-									div.wt-todo-group
-										div.wt-todo-checkbox
-											input(type="checkbox", ng-model="staticMarkAllCheckboxT", ng-change="markAllTodosAs(false)")
-										div.wt-todo-text
-											p Done
-								li(ng-repeat="todo in currentFileData | filter: { display: true, done: true }")
-									single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
-								li.wt-no-todo-item
-									div.wt-todo-group
-										div.wt-todo-text
-											p Let's get it done!
+						ul.list-unstyled.wt-todo-items
+							li
+								div.wt-todo-group
+									div.wt-todo-checkbox
+										input(type="checkbox", ng-model="staticMarkAllCheckboxT", ng-change="markAllTodosAs(false)")
+									div.wt-todo-text
+										p Done
+							li(ng-repeat="todo in currentFileData | filter: { display: true, done: true }")
+								single-todo(wt-data="todo.displayData", wt-done="todo.done", wt-save="updateTodo(todo)", wt-delete="deleteTodo(todo)", wt-update="updateTodo(todo)")
+							li.wt-no-todo-item
+								div.wt-todo-group
+									div.wt-todo-text
+										p Let's get it done!
 		footer#end
 			include includes/footer
 

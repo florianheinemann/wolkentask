@@ -28,7 +28,7 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 				$window.location.href = '/logout';
 			});		
 		} else {
-			alertify.error(message);			
+			alertify.error( (message) ? message : "Some internal trouble...");			
 		}
 	});
 

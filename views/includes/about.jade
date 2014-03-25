@@ -1,5 +1,5 @@
-div#about
-	div.white-panel
+div.centered-container#about
+	div.white-panel.stacked-panel
 		div.responsive-img#hero
 			h2 All your tasks as text files on your Dropbox. Simple.
 			if !authenticated
@@ -10,7 +10,7 @@ div#about
 				form.inline-element(action="/")
 					button.btn.btn-shadow(type="submit", title="Dive into your tasks") Dive in!
 
-	div.white-panel
+	div.white-panel.stacked-panel
 		div.responsive-img#img-screenshot
 		div.section
 			div.col.col-1-3
@@ -24,7 +24,7 @@ div#about
 			div.col.col-1-3
 				h3 Backed up.
 				p Thanks to the synchronization with your Dropbox account, your to-do lists are not only stored in the cloud but also on every computer your Dropbox is linked to.
-	div.white-panel
+	div.white-panel.stacked-panel
 		div.responsive-img#img-text-file
 		div.section
 			div.col.col-1-3
@@ -36,7 +36,7 @@ div#about
 			div.col.col-1-3
 				h3 Import &amp; export.
 				p Drop any text file into your Dropbox and wolkentask will automatically interpret it as a to-do list whenever you open it. Exporting your data? Just copy it from your Dropbox.
-	div.white-panel
+	div.white-panel.stacked-panel
 		div.responsive-img#img-dropbox
 		div.section
 			div.col.col-1-3
