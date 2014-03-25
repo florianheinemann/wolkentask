@@ -22,13 +22,13 @@ block content
 		div#middle-section
 			div.full-container
 				div.col#file-pane(ng-class="{hideFilePane: !showNavMenu}")
-					h2 Favorites
+					h2 Your Favorites
 					ul.list-unstyled.wt-file-list
 						li.wt-fav(ng-repeat="favorite in favorites", ng-cloak)
 							file-listing(wt-name="favorite.name", wt-type="file", wt-open="getFile(favorite.path, true)")
 						li.wt-no-fav No favorites yet
 
-					h2 File browser
+					h2 Your Dropbox
 					ul.list-unstyled.wt-file-list
 						li
 							folder-path.wt-file-no-file(wt-path="currentFolder")
@@ -45,7 +45,8 @@ block content
 					div.white-panel.stacked-panel.section.wt-no-content(ng-hide="currentFileName")
 						div.col.col-full
 							h2 Let's get started!
-							p Start by selecting a file from your Favorites or your Dropbox. No to-dos yet? Simply create a new to-do file!
+							p Start by selecting a file from your Favorites or your Dropbox.
+							p No to-dos yet? Simply create a new to-do file!
 
 					div(ng-show="currentFileName", ng-cloak)
 						div#file-top-nav
