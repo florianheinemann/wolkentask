@@ -1,7 +1,7 @@
 span
 	span.ng-show(ng-hide="waiting")
 		form(role="form", ng-submit="onSaveSubmit()")
-			label.ng-hide(for="newFileInput", ng-show="displayError") Only text files are allowed
+			label.ng-hide(for="newFileInput", ng-show="displayError", ng-class="{hasError: displayError}") Only text files are allowed
 			input.form-control#newFileInput(type="text", ng-model="fileName", placeholder="New file.md", ng-blur="cancel()")
 	span.ng-hide(ng-show="waiting")
 		i.fa.fa-fw.fa-refresh(ng-class="{rotateElement: loading}")

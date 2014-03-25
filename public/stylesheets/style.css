@@ -172,7 +172,7 @@ input, button, select, textarea {
     background-color: #5bc0de;
 }
 
-.has-error {
+.hasError {
 	color: #E75849;
 }
 
@@ -513,7 +513,7 @@ button {
 }
 
 #file-top-nav .wt-file-top-name {
-	margin-right: 210px;
+	margin-right: 235px;
 }
 
 #file-top-nav .wt-file-top-name h2 {
@@ -526,7 +526,7 @@ button {
 	position: absolute;
 	right: 0px;
 	top: 0px;
-	width: 210px;
+	width: 235px;
 	text-align: right;
 }
 

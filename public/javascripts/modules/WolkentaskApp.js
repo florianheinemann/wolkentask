@@ -139,6 +139,7 @@ var wolkentask = angular.module('wolkentask', []);
 					$scope.wtData = $scope.editData;
 					$scope.editData = "";
 					$scope.wtSave();
+					inputBoxEl.blur();
 				};
 
 				$scope.update = function() {
@@ -162,13 +163,10 @@ var wolkentask = angular.module('wolkentask', []);
 				$scope.displayError = false;
 				$scope.waiting = false;
 
-				var formEl = element.find("form");
-
 				var resetFields = function() {
 					$scope.fileName = '';
 					$scope.displayError = false;
 					$scope.waiting = false;
-					formEl.removeClass("has-error");
 				}
 
 				var validFileExt = ['', '.applescript', '.as', '.as3', '.c', '.cc', '.clisp', '.coffee', '.cpp', '.cs', 
@@ -190,7 +188,6 @@ var wolkentask = angular.module('wolkentask', []);
 					};
 					if(!found) {
 						$scope.displayError = true;
-						formEl.addClass("has-error");		
 						return;
 					};
 
@@ -223,25 +220,25 @@ var wolkentask = angular.module('wolkentask', []);
 			restrict: "E",
 			scope: {
 				wtStatus: '=',
-				wtSave: '&'
+				wtSave: '&',
 			},
 			link: function($scope, $element, $attrs) {
 				var buttonEl = $element;
-				var textEl = buttonEl.find("span")[1];
+				$scope.buttonText = "Saved";
 
 				$scope.$watch('wtStatus', function() {
 					buttonEl.removeClass("btn-warning btn-success btn-info");
 					if($scope.wtStatus === dropboxClientService.SaveStatusEnum.saving) {
 						buttonEl.addClass("btn-info");
-						textEl.innerText = "Saving...";
+						$scope.buttonText = "Saving...";
 						buttonEl.prop("disabled", true);
 					} else if($scope.wtStatus === dropboxClientService.SaveStatusEnum.saved) {
 						buttonEl.addClass("btn-success");
-						textEl.innerText = "Saved";
+						$scope.buttonText = "Saved";
 						buttonEl.prop("disabled", true);
 					} else { // unsaved
 						buttonEl.addClass("btn-warning");
-						textEl.innerText = "Save";
+						$scope.buttonText = "Save";
 						buttonEl.prop("disabled", false);
 					} 
 				});
