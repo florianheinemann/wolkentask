@@ -34,21 +34,7 @@ exports.logout = function(decrypt) {
 			path: "/1/disable_access_token?access_token=" + decrypt(req.user.providerToken),
 			method: "POST"
 		};
-
-		var request = http.request(options, function(result) {
-			console.log('STATUS: ' + result.statusCode);
-			console.log('HEADERS: ' + JSON.stringify(result.headers));
-			result.setEncoding('utf8');
-
-			result.on('data', function (chunk) {
-				console.log('BODY: ' + chunk);
-			});
-		});
-
-		request.on('error', function(e) {
-			console.log('problem with request: ' + e.message);
-		});
-
+		var request = http.request(options);
 		request.end();
 
 		req.logout();
