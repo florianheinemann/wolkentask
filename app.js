@@ -58,7 +58,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', middleware.ensureAuthenticated, routes.index(config.dropbox.app_key, 
 											symcrypt.decryptString(config.data.data_sym_crypt_key)));
 app.get('/login', middleware.ensureNotAuthenticated, routes.login);
-app.get('/logout', routes.logout);
+app.get('/logout', middleware.ensureAuthenticated, 
+	routes.logout(symcrypt.decryptString(config.data.data_sym_crypt_key)));
 
 app.get('/auth/dropbox', passport.authenticate('dropbox-oauth2'), function(req, res){
     // The request will be redirected to Dropbox for authentication, so this

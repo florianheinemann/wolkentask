@@ -1,5 +1,7 @@
 "use strict";
 
+var http = require('https');
+
 exports.index = function(dropboxAppKey, decrypt) {
 	return function(req, res) {
 		// To ensure legacy users are reauthorized 
@@ -8,7 +10,8 @@ exports.index = function(dropboxAppKey, decrypt) {
 			decryptedToken = decrypt(req.user.providerToken);
 		}
 		catch (e) {
-			exports.logout(req, res);
+			req.logout();
+			res.redirect('/');
 			return;
 		}
 
@@ -23,9 +26,34 @@ exports.login = function(req, res){
 	res.render('about', { authenticated: req.isAuthenticated() });
 };
 
-exports.logout = function(req, res){
-	req.logout();
-	res.redirect('/');
+exports.logout = function(decrypt) {
+	return function(req, res) {
+		var options = {
+			hostname: "api.dropbox.com",
+			port: 443,
+			path: "/1/disable_access_token?access_token=" + decrypt(req.user.providerToken),
+			method: "POST"
+		};
+
+		var request = http.request(options, function(result) {
+			console.log('STATUS: ' + result.statusCode);
+			console.log('HEADERS: ' + JSON.stringify(result.headers));
+			result.setEncoding('utf8');
+
+			result.on('data', function (chunk) {
+				console.log('BODY: ' + chunk);
+			});
+		});
+
+		request.on('error', function(e) {
+			console.log('problem with request: ' + e.message);
+		});
+
+		request.end();
+
+		req.logout();
+		res.redirect('/');
+	};
 };
 
 exports.sites = function(req, res) {
