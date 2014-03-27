@@ -143,6 +143,7 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 					deferred.resolve();         
 				}, function(error) {
 					deferred.reject();
+					exceptionService.raiseError(error);
 					if(isFavorite) {
 						alertify.confirm("This file can't be retrieved. Would you like to remove this favorite from your list?", 
 							function (e) {
@@ -151,7 +152,6 @@ function WolkentaskController($scope, $http, $q, $window, $timeout, favoritesSer
 								}
 						});
 					}
-					exceptionService.raiseError(error);
 				});
 			}, function(cancel) {
 				deferred.reject("Unsaved changes detected");
