@@ -7,13 +7,13 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "~3.4.8",
-    "jade": "~1.0.2",
     "connect-mongostore": "0.0.10",
+    "express": "^3.4.8",
+    "express-sslify": "^0.1.0",
+    "jade": "^1.0.2",
     "mongoose": "~3.8.3",
-    "passport": "~0.1.18",
-    "passport-dropbox-oauth2": "~0.1.4",
-    "express-sslify": "0.0.1"
+    "passport": "^0.1.18",
+    "passport-dropbox-oauth2": "0.1.*"
   },
   "repository": {
     "type": "git",
