@@ -6,11 +6,12 @@ config.data = {};
 config.http = {};
 config.ga = {};
 
-config.mongodb.host = process.env.MONGO_HOST || '127.0.0.1';
-config.mongodb.port = process.env.MONGO_PORT || 27017;
-config.mongodb.user = process.env.MONGO_USER || '';
-config.mongodb.password = process.env.MONGO_PASSWORD || '';
-config.mongodb.database = process.env.MONGO_DATABASE || 'wolkentask';
+config.mongodb.host = process.env.MONGODB_HOST || '127.0.0.1';
+// TODO: Wait for bugfix of dokku mongodb plugin
+config.mongodb.port = /*process.env.MONGODB_PORT ||*/ 27017;
+config.mongodb.user = process.env.MONGODB_USERNAME || '';
+config.mongodb.password = process.env.MONGODB_PASSWORD || '';
+config.mongodb.database = process.env.MONGODB_DATABASE || 'wolkentask';
 
 // Format:     mongodb://[username:password@]host1[:port1][/[database]
 
